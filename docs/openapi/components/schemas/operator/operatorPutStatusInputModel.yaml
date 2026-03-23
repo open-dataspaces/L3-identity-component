@@ -1,0 +1,54 @@
+operatorPutStatusInputModel:
+  type: object
+  required:
+    - updated_at
+  description: |-
+    事業者情報ステータス更新API
+    の Request Body
+  properties:
+    # 排他制御用 更新日時
+    updated_at:
+      type: string
+      format: date-time
+      minLength: 24
+      maxLength: 24
+      description: |-
+        更新日時
+        - データが他APIで更新されていないことを検査するために使用します。
+        - YYYY-MM-DDTHH:mm:ss.sssZ形式。
+        - 事業者情報取得APIにて最新の更新日時を取得し、設定してください。
+        - 指定した更新日時とデータベース内の更新日時が不一致の場合、更新処理を拒否します。
+      example: "2030-12-31T23:59:59.999Z"
+
+    # 有効日制御関連 -----------------------------
+    effective_start_date:
+      type: string
+      format: date
+      description: |-
+        事業者情報の有効開始日
+        - 登録された事業者情報の有効開始日です。
+        - YYYY-MM-DD形式
+      example: "2025-01-01"
+
+    effective_end_date:
+      type: string
+      format: date
+      description: |-
+        事業者情報の有効終了日
+        - 登録された事業者情報の有効終了日です。
+        - YYYY-MM-DD形式
+      example: "2030-12-31"
+
+    # 無効化フラグ
+    deleted_flag:
+      type: boolean
+      default: false
+      description: |-
+        無効化フラグ
+        - true:事業者識別子（内部）を無効化します
+        - false:事業者識別子（内部）を有効化します
+        - 無効化を行うと、アクセストークンの取得を含む事業者情報が利用不可になります
+        - 再度有効化を行う場合は、本フラグを false に指定して実行してください
+        - 無効化を行っても、事業者情報はデータベース内で保持されます
+      example: false
+

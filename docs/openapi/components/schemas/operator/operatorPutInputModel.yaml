@@ -1,0 +1,40 @@
+operatorPutInputModel:
+  type: object
+  required:
+    - updated_at
+  description: |-
+    事業者情報更新API
+    の Request Body
+  properties:
+    # 排他制御用 更新日時
+    updated_at:
+      type: string
+      format: date-time
+      minLength: 24
+      maxLength: 24
+      description: |-
+        更新日時
+        - データが他APIで更新されていないことを検査するために使用します。
+        - YYYY-MM-DDTHH:mm:ss.sssZ形式。
+        - 事業者情報取得APIにて最新の更新日時を取得し、設定してください。
+        - 指定した更新日時とデータベース内の更新日時が不一致の場合、更新処理を拒否します。
+      example: "2030-12-31T23:59:59.999Z"
+
+    # IDPアカウント関連 -----------------------------
+    login_user_id:
+      $ref: "./operatorOutputModel.yaml#/operatorAccountProperties/properties/login_user_id"
+
+    operator_name:
+      $ref: "./operatorOutputModel.yaml#/operatorProperties/properties/operator_name"
+
+    # 事業者情報関連 -----------------------------
+    operator_address:
+      $ref: "./operatorOutputModel.yaml#/operatorProperties/properties/operator_address"
+
+    open_operator_id:
+      $ref: "./operatorOutputModel.yaml#/operatorProperties/properties/open_operator_id"
+    
+    global_operator_id:
+      $ref: "./operatorOutputModel.yaml#/operatorProperties/properties/global_operator_id"
+
+

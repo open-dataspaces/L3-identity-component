@@ -1,0 +1,76 @@
+put:
+  tags:
+  - account/operator
+  summary: '事業者情報ステータス更新API'
+  description: |-
+    ## 概要  
+    事業者情報のステータスを更新します。  
+    指定した任意項目の値を更新します。
+
+    リクエストヘッダーに設定されたアクセストークンに紐づく権限により、更新操作が制限されます。  
+    操作権限は、認可タプル登録APIにて権限追加が可能です。
+    - 操作権限が不足している場合、HTTPステータスコード 403 Forbidden を返却します。
+
+  parameters:
+    # Path Parameter
+    - name: operator_id
+      in: path
+      required: true
+      description: |-
+        事業者識別子（内部）  
+        - 事業者を一意に識別するための識別子です。
+      schema:
+        type: string
+        format: uuid
+        minLength: 36
+        maxLength: 36
+        example: "d9a38406-cae2-4679-b052-15a75f5531e6"
+
+    # Header Parameter
+    - $ref: '../../components/headers/request.yaml#/requestHeaders/Content-Type'
+    - $ref: '../../components/headers/request.yaml#/requestHeaders/User-Agent'
+    - $ref: '../../components/headers/request.yaml#/requestHeaders/Accept-Language'
+    - $ref: '../../components/headers/request.yaml#/requestHeaders/X-TrackingID'
+ 
+  security:
+  - API-Key: []
+    Authorization: []
+  x-codegen-request-body-name: RequestBody
+
+  requestBody:
+    description: リクエスト情報
+    content:
+      application/json:
+        schema:
+          $ref: '../../components/schemas/operator/operatorPutStatusInputModel.yaml#/operatorPutStatusInputModel'
+
+  responses:
+    '200':
+      description: |-
+        事業者情報のステータス更新に成功しました。  
+        更新された事業者情報を返却します。
+      headers:
+        $ref: '../../components/headers/responses.yaml#/responseHeaders'
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '../../components/schemas/common/httpResponses.yaml#/httpResponses'
+              - $ref: '../../components/schemas/operator/operatorOutputModel.yaml#/operatorOutputModel'
+    "400":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/400'
+    "401":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/401'
+    "403":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/403'
+    "404":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/404'
+    "409":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/409'
+    "415":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/415'
+    "500":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/500'
+    "503":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/503'
+

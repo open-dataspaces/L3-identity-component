@@ -1,0 +1,139 @@
+operatorListInputModel:
+  type: object
+  required:
+    - count
+    - index
+  description: |-
+    事業者情報一覧取得API
+    の Request Body
+  properties:
+    # 取得件数制御 --------------------------------
+    count:
+      type: integer
+      format: int32
+      minimum: 0
+      description: |-
+        データ取得件数
+        - データベース内で一致する事業者情報の最大取得件数を指定します
+        - すべての検索結果を取得する場合は 0 を指定してください
+      example: 0
+
+    index:
+      type: integer
+      format: int32
+      minimum: 0
+      description: |-
+        データ取得開始位置
+        - データベース内で一致する事業者情報の取得開始位置を指定します
+      example: 0
+
+    sort:
+      type: object
+      description: |-
+        ソート条件
+
+      properties:
+        key:
+          type: string
+          enum:
+            - "operator_id"
+            - "operator_name"
+            - "operator_address"
+            - "open_operator_id"
+            - "global_operator_id"
+            - "effective_start_date"
+            - "effective_end_date"
+            - "deleted_flag"
+            - "created_at"
+            - "updated_at"
+          default: "operator_id"
+          description: |-
+            ソートキー
+            - データベース内で一致する事業者情報の取得結果をソートキーを指定します
+            - 指定しない場合、ソートキーは operator_id になります
+          example: "operator_id"
+
+        order:
+          type: string
+          enum: ["asc", "desc"]
+          default: "asc"
+          description: |-
+            ソート条件
+            - データベース内で一致する事業者情報の取得結果ソート順を指定します
+            - asc : 昇順
+            - desc : 降順
+          example: "asc"
+
+    # IDPアカウント関連 -----------------------------
+    operator_id:
+      type: string
+      format: uuid
+      minLength: 36
+      maxLength: 36
+      description: |-
+        事業者識別子（内部）
+        - 事業者を一意に識別するための識別子です。
+      example: "d9a38406-cae2-4679-b052-15a75f5531e6"
+
+    operator_name:
+      type: string
+      minLength: 1
+      maxLength: 255
+      description: |-
+        事業者名
+        - 文字コード：UTF-8
+        - 半角、全角文字どちらも許容します。
+        - あいまい検索を行う場合、ワイルドカードは '*' を指定してください。 
+      example: "テスト株式会社"
+
+    # 事業者情報関連 -----------------------------
+    operator_address:
+      type: string
+      minLength: 1
+      maxLength: 256
+      description: |-
+        事業者所在地
+        - 文字コード：UTF-8
+        - 半角、全角文字どちらも許容します。
+        - あいまい検索を行う場合、ワイルドカードは '*' を指定してください。 
+      example: "試験県テスト市examビル1F"
+
+    open_operator_id:
+      type: string
+      minLength: 1
+      maxLength: 20
+      pattern: '^[a-zA-Z0-9]$'
+      description: |-
+        事業者識別子（ローカル）
+        - 事業者識別子（内部）に紐づく事業者をデータスペース外（日本国内）から判断するための識別子です。
+        - 日本国内企業の場合は、法人番号を設定してください。
+        - 日本国外企業の場合は、企業が判断できる番号を設定してください。（例：LEI）
+      example: "1234567890123"
+
+    global_operator_id:
+      type: string
+      minLength: 0
+      maxLength: 256
+      nullable: true
+      description: |-
+        事業者識別子（グローバル）
+        - 事業者識別子（内部）に紐づく事業者をデータスペース外（日本国外）から判断するための識別子です。
+        - データスペース外（日本国外）から事業者を判断できる番号を設定してください。
+      example: "123456789TT234567890"
+
+    # ステータス制御関連 -----------------------------
+    effective_date:
+      type: string
+      format: date
+      description: |-
+        事業者情報の有効日
+        - YYYY-MM-DD形式で指定してください。
+        - 指定しない場合は、有効開始日および有効終了日を検索条件に含みません。
+      example: "2025-01-01"
+
+    deleted_flag:
+      type: boolean
+      description: |-
+        無効化フラグ
+        - 指定しない場合は、無効化フラグを検索条件に含めません。
+

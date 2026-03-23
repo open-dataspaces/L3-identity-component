@@ -1,0 +1,104 @@
+post:
+  tags:
+  - auth
+  summary: ユーザ当人認証(認可コードフロー)_ログインURL取得API
+  description: |-
+    クライアントIDおよびクライアントシークレットを基に認可コードフローのリダイレクトURL（ログイン画面）を取得します。
+    - 使用するモデル：urlInputModel
+    - 取得されるモデル：urlOutputModel
+
+  parameters:
+    - $ref: '../../components/headers/request.yaml#/requestHeaders/Content-Type'
+    - $ref: '../../components/headers/request.yaml#/requestHeaders/User-Agent'
+    - $ref: '../../components/headers/request.yaml#/requestHeaders/Accept-Language'
+    - $ref: '../../components/headers/request.yaml#/requestHeaders/X-TrackingID'
+  
+  security:
+  - API-Key: []
+  x-codegen-request-body-name: RequestBody
+
+  requestBody:
+    description: Request Body
+    content:
+      application/json:
+        schema:
+          $ref: '../../components/schemas/auth/urlInputModel.yaml#/urlInputModel'
+
+  responses:
+    "200":
+      description: |-
+        ログインURL取得に成功しました。  
+        認可フローのログインURL（エンドポイント）を返却します。
+      headers:
+        $ref: '../../components/headers/responses.yaml#/responseHeaders'
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '../../components/schemas/common/httpResponses.yaml#/httpResponses'
+              - $ref: '../../components/schemas/auth/urlOutputModel.yaml#/urlOutputModel'
+    "400":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/400'
+    "401":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/401'
+    "403":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/403'
+    "404":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/404'
+    "415":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/415'
+    "500":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/500'
+    "503":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/503'
+
+    # "401":
+    #   description: |-
+    #     認証に失敗しました。  
+    #     有効な認証情報を提供してください。
+    #   headers:
+    #     $ref: '../../components/headers/responsesError.yaml#/responseHeaders'
+    #   content:
+    #     application/json:
+    #       schema:
+    #         $ref: '../../components/schemas/common/httpError.yaml#/HTTPError'
+    # "403":
+    #   description: |-
+    #     アクセスが拒否されました。  
+    #     この操作を実行する権限がありません。
+    #   headers:
+    #     $ref: '../../components/headers/responsesError.yaml#/responseHeaders'
+    #   content:
+    #     application/json:
+    #       schema:
+    #         $ref: '../../components/schemas/common/httpError.yaml#/HTTPError'
+    # "404":
+    #   description: |-
+    #     リクエストされたリソースが見つかりません。  
+    #     指定された事業者情報が存在しない可能性があります。
+    #   headers:
+    #     $ref: '../../components/headers/responsesError.yaml#/responseHeaders'
+    #   content:
+    #     application/json:
+    #       schema:
+    #         $ref: '../../components/schemas/common/httpError.yaml#/HTTPError'
+    # "500":
+    #   description: |-
+    #     サーバー内部でエラーが発生しました。  
+    #     後ほど再試行してください。
+    #   headers:
+    #     $ref: '../../components/headers/responsesError.yaml#/responseHeaders'
+    #   content:
+    #     application/json:
+    #       schema:
+    #         $ref: '../../components/schemas/common/httpError.yaml#/HTTPError'
+    # "503":
+    #   description: |-
+    #     サービスが一時的に利用できません。  
+    #     後ほど再試行してください。
+    #   headers:
+    #     $ref: '../../components/headers/responsesError.yaml#/responseHeaders'
+    #   content:
+    #     application/json:
+    #       schema:
+    #         $ref: '../../components/schemas/common/httpError.yaml#/HTTPError'

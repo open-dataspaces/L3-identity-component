@@ -1,0 +1,137 @@
+get:
+  tags:
+  - authz
+  summary: 認可ストア取得API
+  description: |-
+    PAPに対して認可ストアの取得を行います。  
+    レスポンスボディの一部のスキーマ定義はOpenFGAのエンドポイントの仕様に準拠するため、本ドキュメントでは省略しています。  
+    詳細は外部ドキュメントを参照してください。  
+    該当エンドポイント： `GET /stores/{store_id}`
+  externalDocs:
+    description: OpenFGA API Documentation
+    url: https://openfga.dev/api/service#/Stores/GetStore
+
+  parameters:
+    # Path Parameter
+    - name: store_id
+      in: path
+      required: true
+      description: |-
+        ストアID  
+        - 認可ストアを一意に識別するための識別子です。
+      schema:
+        type: string
+        format: ulid
+        minLength: 26
+        maxLength: 26
+        example: "01ARZ3NDEKTSV4RRFFQ69G5FAV"
+    # Request Headers
+    - $ref: '../../components/headers/request.yaml#/requestHeaders/User-Agent'
+    - $ref: '../../components/headers/request.yaml#/requestHeaders/Accept-Language'
+    - $ref: '../../components/headers/request.yaml#/requestHeaders/X-TrackingID'
+
+  security:
+  - API-Key: []
+    Authorization: []
+
+  responses:
+    "200":
+      headers:
+        $ref: '../../components/headers/responses.yaml#/responseHeaders'
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '../../components/schemas/common/httpResponses.yaml#/httpResponses'
+              - type: object
+                properties:
+                  data:
+                    type: object
+                    example: {}
+                    # スキーマ定義は省略し、説明のみ記載
+                    description: |
+                      このレスポンスボディは OpenFGAが提供するAPIエンドポイントに準拠したレスポンスオブジェクトです。  
+                      詳細はhttps://openfga.dev/api/service#/Stores/GetStore を参照してください。
+                    externalDocs:
+                      description: OpenFGA API Documentation
+                      url: https://openfga.dev/api/service#/Stores/GetStore
+    "400":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/400'
+    "401":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/401'
+    "403":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/403'
+    "404":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/404'
+    "500":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/500'
+    "503":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/503'
+
+delete:
+  tags:
+  - authz
+  summary: 認可ストア削除API
+  description: |-
+    PAPに対して認可ストアの削除を行います。  
+    レスポンスボディの一部のスキーマ定義はOpenFGAのエンドポイントの仕様に準拠するため、本ドキュメントでは省略しています。  
+    詳細は外部ドキュメントを参照してください。  
+    該当エンドポイント： `DELETE /stores/{store_id}`
+  externalDocs:
+    description: OpenFGA API Documentation
+    url: https://openfga.dev/api/service#/Stores/DeleteStore
+
+  parameters:
+    # Path Parameter
+    - name: store_id
+      in: path
+      required: true
+      description: |-
+        ストアID  
+        - 認可ストアを一意に識別するための識別子です。
+      schema:
+        type: string
+        format: ulid
+        minLength: 26
+        maxLength: 26
+        example: "01ARZ3NDEKTSV4RRFFQ69G5FAV"
+    # Request Headers
+    - name: X-Confirm-Store-Id
+      in: header
+      required: true
+      description: |-
+        確認用ストアID  
+        - パスパラメータの`store_id`と同じ値を設定してください。  
+        - ヘッダーが設定されていない場合、または値が一致しない場合、HTTPステータスコード 400 Bad Request を返却します。
+      schema:
+        type: string
+        format: ulid
+        minLength: 26
+        maxLength: 26
+        example: "01ARZ3NDEKTSV4RRFFQ69G5FAV"
+    - $ref: '../../components/headers/request.yaml#/requestHeaders/User-Agent'
+    - $ref: '../../components/headers/request.yaml#/requestHeaders/Accept-Language'
+    - $ref: '../../components/headers/request.yaml#/requestHeaders/X-TrackingID'
+
+  security:
+  - API-Key: []
+    Authorization: []
+
+  responses:
+    "204":
+      headers:
+        $ref: '../../components/headers/responses.yaml#/responseHeaders'
+    "400":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/400'
+    "401":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/401'
+    "403":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/403'
+    "404":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/404'
+    "409":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/409'
+    "500":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/500'
+    "503":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/503'

@@ -1,0 +1,259 @@
+# 事業者情報モデル
+# ------------------------------------------
+operatorOutputModel:
+  type: object
+  required:
+    - data
+  description: |-
+    事業者情報
+    - パスパラメータで指定された事業者識別子（内部）と一致する事業者情報を返却します。
+    - 指定された事業者識別子（内部）と一致する事業者情報が存在しない場合、空のオブジェクトを返却します。
+  properties:
+    data:
+     oneOf:
+     - allOf:
+       - $ref: "#/operatorAccountProperties"
+       - $ref: "#/operatorProperties"
+     - title: emptyOperatorProperties
+       type: object
+       description: |-
+           事業者情報が存在しない場合の空オブジェクト
+       properties: {}
+
+# 事業者情報取得モデル
+# ------------------------------------------
+operatorGetOutputModel:
+  type: object
+  required:
+    - data
+  description: |-
+    事業者情報一覧
+    - パスパラメータで指定された事業者識別子と一致する事業者情報を返却します。
+    - 指定された事業者識別子と一致する事業者情報が存在しない場合、空のオブジェクトを返却します。
+  properties:
+    data:
+      oneOf:
+        - $ref: "#/operatorProperties"
+        - title: emptyOperatorProperties
+          type: object
+          description: |-
+            事業者情報が存在しない場合の空オブジェクト
+          properties: {}
+
+# 事業者情報更新モデル
+# ------------------------------------------
+operatorPutOutputModel:
+  type: object
+  required:
+    - data
+  description: |-
+    事業者情報一覧
+    - パスパラメータで指定された事業者識別子と一致する事業者情報を返却します。
+    - 指定された事業者識別子と一致する事業者情報が存在しない場合、空のオブジェクトを返却します。
+  properties:
+    data:
+      oneOf:
+        - allOf:
+          - $ref: "#/operatorAccountProperties"
+          - $ref: "#/operatorProperties"
+        - title: emptyOperatorProperties
+          type: object
+          description: |-
+            事業者情報が存在しない場合の空オブジェクト
+          properties: {}
+
+# 事業者情報リストモデル
+# ------------------------------------------
+operatorListOutputModel:
+  type: object
+  required:
+    - data
+  description: |-
+    事業者情報一覧
+    - 検索条件に一致する事業者情報がデータベース内に存在しない場合、空配列を返却します
+  properties:
+    data:
+      type: array
+      items:
+        $ref: "#/operatorProperties"
+
+# 事業者情報（初期パスワード付き）モデル
+# ------------------------------------------
+operatorPasswordOutputModel:
+  type: object
+  required:
+    - data
+  description: |-
+    事業者情報
+    - パスパラメータで指定された事業者識別子（内部）と一致する事業者情報を返却します。
+    - システムで生成された初期パスワードを返却します。
+    - 指定された事業者識別子（内部）と一致する事業者情報が存在しない場合、空のオブジェクトを返却します。
+  properties:
+    data:
+      allOf:
+        - $ref: "#/operatorAccountProperties"
+        - $ref: "#/operatorProperties"
+        - $ref: "#/operatorPasswordProperties"
+
+# 事業者情報プロパティ
+# ------------------------------------------
+operatorProperties:
+  type: object
+  required:
+    - operator_id
+    - operator_name
+    - operator_address
+    - open_operator_id
+    - global_operator_id
+    - effective_start_date
+    - effective_end_date
+    - deleted_flag
+    - created_at
+    - updated_at
+  properties:
+    # IDPアカウント関連 -----------------------------
+    operator_id:
+      type: string
+      format: uuid
+      minLength: 36
+      maxLength: 36
+      description: |-
+        事業者識別子（内部）
+        - 事業者を一意に識別するための識別子です。
+      example: "d9a38406-cae2-4679-b052-15a75f5531e6"
+
+    operator_name:
+      type: string
+      minLength: 1
+      maxLength: 255
+      description: |-
+        事業者名
+        - 文字コード：UTF-8
+        - 半角、全角文字どちらも許容します。
+      example: "テスト株式会社"
+
+    # 事業者情報関連 -----------------------------
+    operator_address:
+      type: string
+      minLength: 1
+      maxLength: 256
+      description: |-
+        事業者所在地
+        - 文字コード：UTF-8
+        - 登録されている事業者の所在地です。
+        - 半角、全角文字どちらも許容します。
+      example: "試験県テスト市examビル1F"
+
+    open_operator_id:
+      type: string
+      minLength: 1
+      maxLength: 20
+      pattern: '^[a-zA-Z0-9]$'
+      description: |-
+        事業者識別子（ローカル）
+        - 事業者識別子（内部）に紐づく事業者をデータスペース外（日本国内）から判断するための識別子です。
+        - 日本国内企業の場合は、法人番号を設定してください。
+        - 日本国外企業の場合は、企業が判断できる番号を設定してください。（例：LEI）
+      example: "1234567890123"
+
+    global_operator_id:
+      type: string
+      minLength: 0
+      maxLength: 256
+      nullable: true
+      description: |-
+        事業者識別子（グローバル）
+        - 事業者識別子（内部）に紐づく事業者をデータスペース外（日本国外）から判断するための識別子です。
+        - データスペース外（日本国外）から事業者を判断できる番号を設定してください。
+      example: "123456789TT234567890"
+
+    # 有効日制御関連 -----------------------------
+    effective_start_date:
+      type: string
+      format: date
+      description: |-
+        事業者情報の有効開始日
+        - 登録された事業者情報の有効開始日です。
+        - 登録時に未設定だった場合は登録日付が設定されます。
+        - YYYY-MM-DD形式
+      example: "2025-01-01"
+
+    effective_end_date:
+      type: string
+      format: date
+      default: "9999-12-31"
+      description: |-
+        事業者情報の有効終了日
+        - 登録された事業者情報の有効終了日です。
+        - 登録時に未設定だった場合はシステム最大日付が設定されます。
+        - YYYY-MM-DD形式
+      example: "2030-12-31"
+
+    deleted_flag:
+      type: boolean
+      default: false
+      description: |-
+        無効化フラグ
+        - true:事業者識別子（内部）を無効化します
+        - false:事業者識別子（内部）を有効化します
+        - 無効化を行うと、アクセストークンの取得を含む事業者情報が利用不可になります
+        - 再度有効化を行う場合は、本フラグを false に指定して実行してください
+        - 無効化を行っても、事業者情報はデータベース内で保持されます
+      example: false
+
+    created_at:
+      type: string
+      format: date-time
+      description: |-
+        登録日時
+        - データの登録日時
+        - YYYY-MM-DDTHH:mm:ss.sssZ形式
+      example: "2030-12-31T23:59:59.999Z"
+
+    updated_at:
+      type: string
+      format: date-time
+      description: |-
+        更新日時
+        - データの更新日時
+        - YYYY-MM-DDTHH:mm:ss.sssZ形式
+      example: "2030-12-31T23:59:59.999Z"
+
+# 初期パスワード含むプロパティ
+# ------------------------------------------
+operatorPasswordProperties:
+  type: object
+  description: |-
+    事業者情報
+  properties:
+    # パスワード制御関連 -----------------------------
+    password:
+      type: string
+      minLength: 8
+      maxLength: 20
+      pattern: '^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#\\$%\\^&\\*\\(\\)])[A-Za-z0-9!@#\\$%\\^&\\*\\(\\)]+$'
+      nullable: true
+      description: |-
+        パスワード
+        - 登録されたパスワード
+        - create_password_flagが false の場合は値は設定されません。
+      example: "xx@&1234Pass"
+
+# IDPアカウント関連（他社閲覧考慮）
+# ------------------------------------------
+operatorAccountProperties:
+  type: object
+  required:
+    - login_user_id
+  properties:
+    # IDPアカウント関連 -----------------------------
+    login_user_id:
+      type: string
+      pattern: '^[a-z0-9_.-@]+$'
+      minLength: 3
+      maxLength: 255
+      description: |-
+        ログインユーザID
+        - ログインに使用するIDです。
+        - 既に登録されているログインユーザIDを使用することはできず、登録済みの場合はエラーとなります。
+      example: "login_user_id_12345"

@@ -1,0 +1,70 @@
+clientRegistrationInputModel:
+  type: object
+  description: |
+    ## 概要
+    クライアントIDを新規登録します。 
+
+  title: clientRegistrationInputModel
+  required:
+  - flow_type
+  - client_id
+  - open_system_id
+
+  properties:
+    flow_type:
+      type: string
+      enum:
+        - client_credentials
+      description: |
+        登録するクライアントの認証方式
+        - client_credentials: クライアントクレデンシャル認証
+      example: "client_credentials"
+
+    client_id:
+      type: string
+      pattern: '^[A-Za-z0-9_-]+$'
+      minLength: 1
+      maxLength: 239
+      description: |
+        クライアントID
+        - 認証認可を行うIDPのクライアントIDを指定します。
+        - IDPに登録されているクライアントアプリケーションを識別するための一意の文字列です。
+        - 既に登録済みのクライアントIDを指定した場合、409 Conflict エラーが返却されます。
+      example: "abc123xyz"
+    
+    name:
+      type: string
+      minLength: 0
+      maxLength: 255
+      description: |
+        クライアント名
+        - クライアントアプリケーションの名前を指定します。
+      example: "My Client System"
+
+    description:
+      type: string
+      minLength: 0
+      maxLength: 255
+      description: |
+        クライアント説明
+        - クライアントアプリケーションの説明を指定します。
+      example: "This is my client system for accessing the API."
+
+    operator_id:
+      type: string
+      format: uuid
+      minLength: 36
+      maxLength: 36
+      description: |-
+        事業者識別子（内部）
+        - 事業者を一意に識別するための識別子です。
+      example: "d9a38406-cae2-4679-b052-15a75f5531e6"
+    
+    open_system_id:
+      type: string
+      minLength: 1
+      maxLength: 255
+      description: |
+        オープンシステムID
+        - クライアントシステムを識別するための一意の文字列です。
+      example: "system_001"

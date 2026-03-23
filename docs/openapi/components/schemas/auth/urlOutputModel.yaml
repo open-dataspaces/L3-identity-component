@@ -1,0 +1,30 @@
+# ログインURL情報モデル
+# ------------------------------------------
+urlOutputModel:
+  type: object
+  description: |-
+    ユーザ当人認証(認可コードフロー)_ログインURL取得API
+    の Response Body
+  title: urlOutputModel
+  required:
+  - data
+  properties:
+    data:
+      $ref: "#/authUrlProperties"
+
+# ログインURLプロパティ
+# ------------------------------------------
+authUrlProperties:
+  type: object
+  description: |-
+    APIの実行結果のデータオブジェクト
+  required:
+    - url
+  properties:
+    url:
+      type: string
+      description: |-
+        IDPの認証画面へのログインURL
+        - リクエストパラメタに基づいた認可コードフローのログインURLを返却します。
+      example: "https://open-dataspaces org/realms/myrealm/protocol/openid-connect/auth?client_id=myclient&response_type=code&scope=openid&redirect_uri=https%3A%2F%2Fmyapp.com%2Fhome"
+

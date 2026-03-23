@@ -1,0 +1,81 @@
+post:
+  tags:
+  - authz
+  summary: 認可ストア登録API
+  description: |-
+    PAPに対して認可ストアの登録を行います。  
+    リクエストボディおよびレスポンスボディの一部のスキーマ定義はOpenFGAのエンドポイントの仕様に準拠するため、本ドキュメントでは省略しています。  
+    詳細は外部ドキュメントを参照してください。  
+    該当エンドポイント： `POST /stores`
+  externalDocs:
+    description: OpenFGA API Documentation
+    url: https://openfga.dev/api/service#/Stores/CreateStore
+
+  parameters:
+    # Request Headers
+    - $ref: '../../components/headers/request.yaml#/requestHeaders/Content-Type'
+    - $ref: '../../components/headers/request.yaml#/requestHeaders/User-Agent'
+    - $ref: '../../components/headers/request.yaml#/requestHeaders/Accept-Language'
+    - $ref: '../../components/headers/request.yaml#/requestHeaders/X-TrackingID'
+
+  security:
+  - API-Key: []
+    Authorization: []
+
+  requestBody:
+    description: Request Body
+    content:
+      application/json:
+        schema:
+          type: object
+          description: "ダミーのスキーマ。実際の詳細は外部ドキュメントを参照してください。"
+          additionalProperties: true
+        description: |
+          このプロパティはOpenFGAが提供するAPIエンドポイントに準拠したJSON形式です。  
+          詳細はhttps://openfga.dev/api/service#/Stores/CreateStore を参照してください。
+        externalDocs:
+          description: OpenFGA API Documentation
+          url: https://openfga.dev/api/service#/Stores/CreateStore
+        examples:
+          external_spec_reference:
+            summary: "ストア登録"
+            description: |-
+              スキーマ定義はこのドキュメントでは省略しています。  
+              詳細は外部ドキュメントを参照してください。
+            value: {}
+  responses:
+    "201":
+      headers:
+        $ref: '../../components/headers/responses.yaml#/responseHeaders'
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '../../components/schemas/common/httpResponses.yaml#/httpResponses'
+              - type: object
+                properties:
+                  data:
+                    type: object
+                    example: {}
+                    # スキーマ定義は省略し、説明のみ記載
+                    description: |
+                      このレスポンスボディは OpenFGAが提供するAPIエンドポイントに準拠したレスポンスオブジェクトです。  
+                      詳細はhttps://openfga.dev/api/service#/Stores/CreateStore を参照してください。
+                    # 必要に応じて externalDocs を追加
+                    externalDocs:
+                      description: OpenFGA API Documentation
+                      url: https://openfga.dev/api/service#/Stores/CreateStore
+    "400":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/400'
+    "401":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/401'
+    "403":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/403'
+    "404":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/404'
+    "415":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/415'
+    "500":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/500'
+    "503":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/503'

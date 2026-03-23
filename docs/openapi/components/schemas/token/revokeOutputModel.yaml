@@ -1,0 +1,21 @@
+revokeOutputModel:
+  type: object
+  description: |-
+    トークン破棄API の Response Body
+  title: revokeOutputModel
+  required:
+    - data
+  properties:
+    data:
+      type: object
+      description: |-
+        トークンの状況を返却するデータオブジェクト
+      required:
+      - active
+      properties:
+        active:
+          const: false
+          type: boolean
+          description: |-
+            トークンの有効状態
+            - false : トークンは無効

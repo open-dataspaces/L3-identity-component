@@ -1,0 +1,130 @@
+# -----------------------------------------------
+# PostgreSQL Support
+# docker compose -p ods-l3-auth up --build -d
+# docker network create shared-network-ods
+
+# Initializing OpenFGA (first time only)
+# docker compose -p ods-l3-auth run --rm openfga_dev migrate --datastore-engine postgres --datastore-uri 'postgres://openfga:password@postgres-openfga-dev:5432/openfga?sslmode=disable'
+
+
+
+# -----------------------------------------------
+
+services:
+  # keycloak
+  # -----------------------------------------------
+  keycloak_dev:
+    image: quay.io/keycloak/keycloak:26.2.5
+    tty: true
+    stdin_open: true
+    #volumes:
+    #  - ./certs/keycloak.crt:/etc/x509/https/keycloak.crt
+    #  - ./certs/keycloak.key:/etc/x509/https/keycloak.key
+    ports:
+        - 8091:8080
+        - 8443:8443
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: Pass@123
+      KC_LOG_LEVEL: DEBUG
+      KC_DB: postgres
+      KC_DB_URL_HOST: postgres_dev
+      KC_DB_URL_PORT: 5432
+      KC_DB_URL_DATABASE: keycloak
+      KC_DB_PASSWORD: password
+
+      #KC_HOSTNAME: localhost
+      #KC_HTTPS_CERTIFICATE_FILE: /etc/x509/https/keycloak.crt
+      #KC_HTTPS_CERTIFICATE_KEY_FILE: /etc/x509/https/keycloak.key
+    command:
+      #- start
+      - start-dev
+
+    depends_on:
+      # Start the database first
+      - postgres_dev
+    networks:
+      shared-network-ods:
+          aliases:
+            - keycloak_dev
+
+  # PostgreSQL
+  # -----------------------------------------------
+  postgres_dev:
+    image: postgres:17
+    environment:
+      # Environment Variables expecially for Postgres
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      shared-network-ods:
+          aliases:
+            - postgres_dev
+
+  # OpenFGA
+  # -----------------------------------------------
+  openfga_dev:
+#    image: openfga/openfga:latest
+    image: openfga-authzen:latest
+    ports:
+      - "8080:8080"  # API
+      - "8081:8081"  # Metrics
+      - "3000:3000"  # Playground
+    environment:
+      # Postgres Configuration
+      OPENFGA_DATASTORE_ENGINE: postgres
+      OPENFGA_DATASTORE_URI: postgres://openfga:password@postgres_openfga_dev:5432/openfga?sslmode=disable
+      # Authentication Settings
+      OPENFGA_AUTHN_METHOD: none   # preshared or oidc or none
+      # In the case of preshared
+      # OPENFGA_AUTHN_PRESHARED_KEYS: preshared
+      # In the case of OIDC
+      # OPENFGA_AUTHN_OIDC_ISSUER: http://keycloak_dev:8080/realms/app_realm
+      # OPENFGA_AUTHN_OIDC_AUDIENCE: account
+      # OPENFGA_AUTHN_OIDC_JWKS_URI: http://keycloak_dev:8080/realms/app_realm/protocol/openid-connect/certs
+      # Log level can be: debug, info, warn, error
+      OPENFGA_LOG_LEVEL: debug
+    # command: run --playground-enabled=false
+    command: run
+    depends_on:
+      # Start the database first
+      - postgres_openfga_dev
+    networks:
+      shared-network-ods:
+          aliases:
+            - openfga_dev
+
+  # PostgreSQL for OpenFGA
+  # -----------------------------------------------
+  postgres_openfga_dev:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: openfga
+      POSTGRES_USER: openfga
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5434:5432"
+    volumes:
+      - pgdata_openfga:/var/lib/postgresql/data
+    networks:
+      shared-network-ods:
+          aliases:
+            - postgres_openfga_dev
+
+volumes:
+  # Persistent volume for Postgres
+  pgdata:
+    driver: local
+  pgdata_openfga:
+    driver: local
+
+networks:
+  # A network involving postgres_dev and ods-app
+  shared-network-ods:
+    external: true
+

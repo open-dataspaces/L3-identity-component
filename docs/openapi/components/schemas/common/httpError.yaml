@@ -1,0 +1,106 @@
+# API設計開発ガイドラインに準拠したレスポンスボディ（異常系）
+# API設計開発ガイドライン 8.3 レスポンスボディ
+HTTPError:
+  type: object
+  description: HTTPエラーレスポンスオブジェクト
+  required:
+    - type
+    - title
+    - status
+    - detail
+  properties:
+    type:
+      type: string
+      description: エラーの種類を識別するURI
+      example: "https://api.example.com/errors/invalid-request-parameters"
+    title:
+      type: string
+      description: エラーメッセージ
+      example: "Validation failed, id: cannot be blank."
+    status:
+      type: string
+      description: エラーステータス
+      example: 400
+    detail:
+      type: string
+      description: 基盤運営事業者向け調査情報
+      example: "time_stamp:2024-10-02T02:26:57.512Z, method:POST"
+
+responses:
+  "400":
+    description: |-
+      リクエストパラメータに不正な値が含まれています。
+    headers:
+      $ref: '../../headers/responses.yaml#/errorResponseHeaders'
+    content:
+      application/json:
+        schema:
+          $ref: '#/HTTPError'
+  "401":
+    description: |-
+      認証に失敗しました。  
+      有効な認証情報を提供してください。
+    headers:
+      $ref: '../../headers/responses.yaml#/errorResponseHeaders'
+    content:
+      application/json:
+        schema:
+          $ref: '#/HTTPError'
+  "403":
+    description: |-
+      アクセスが拒否されました。  
+      この操作を実行する権限がありません。
+    headers:
+      $ref: '../../headers/responses.yaml#/errorResponseHeaders'
+    content:
+      application/json:
+        schema:
+          $ref: '#/HTTPError'
+  "404":
+    description: |-
+      リクエストされたリソースが見つかりません。  
+    headers:
+      $ref: '../../headers/responses.yaml#/errorResponseHeaders'
+    content:
+      application/json:
+        schema:
+          $ref: '#/HTTPError'
+  "409":
+    description: |-
+      一意制約に違反しています。 
+    headers:
+      $ref: '../../headers/responses.yaml#/errorResponseHeaders'
+    content:
+      application/json:
+        schema:
+          $ref: '#/HTTPError'
+  "415":
+    description: |-
+      Content-Type が不正です。
+      サポートされていないメディアタイプです。 
+    headers:
+      $ref: '../../headers/responses.yaml#/errorResponseHeaders'
+    content:
+      application/json:
+        schema:
+          $ref: '#/HTTPError'
+  "500":
+    description: |-
+      サーバー内部でエラーが発生しました。  
+      後ほど再試行してください。
+    headers:
+      $ref: '../../headers/responses.yaml#/errorResponseHeaders'
+    content:
+      application/json:
+        schema:
+          $ref: '#/HTTPError'
+  "503":
+    description: |-
+      サービスが一時的に利用できません。  
+      後ほど再試行してください。
+    headers:
+      $ref: '../../headers/responses.yaml#/errorResponseHeaders'
+    content:
+      application/json:
+        schema:
+          $ref: '#/HTTPError'

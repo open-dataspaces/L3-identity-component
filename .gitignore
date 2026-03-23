@@ -1,0 +1,48 @@
+HELP.md
+open-data-spaces-l3-authenticator-backend/target/
+open-data-spaces-l3-authenticator-backend/!.mvn/wrapper/maven-wrapper.jar
+open-data-spaces-l3-authenticator-backend/!**/src/main/**/target/
+open-data-spaces-l3-authenticator-backend/!**/src/test/**/target/
+open-data-spaces-l3-authenticator-backend/*/target/
+
+### STS ###
+open-data-spaces-l3-authenticator-backend/.apt_generated
+open-data-spaces-l3-authenticator-backend/.classpath
+open-data-spaces-l3-authenticator-backend/.factorypath
+open-data-spaces-l3-authenticator-backend/.project
+open-data-spaces-l3-authenticator-backend/.settings
+open-data-spaces-l3-authenticator-backend/.springBeans
+open-data-spaces-l3-authenticator-backend/.sts4-cache
+
+### IntelliJ IDEA ###
+open-data-spaces-l3-authenticator-backend/.idea
+open-data-spaces-l3-authenticator-backend/*.iws
+open-data-spaces-l3-authenticator-backend/*.iml
+open-data-spaces-l3-authenticator-backend/*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+open-data-spaces-l3-authenticator-backend/!**/src/main/**/build/
+open-data-spaces-l3-authenticator-backend/!**/src/test/**/build/
+
+### VS Code ###
+open-data-spaces-l3-authenticator-backend/.vscode/
+HELP.md
+.VSCodeCounter
+
+### log file ###
+open-data-spaces-l3-authenticator-backend/logs/*
+open-data-spaces-l3-authenticator-backend/**/logs/*
+open-data-spaces-l3-authenticator-backend/*.log
+open-data-spaces-l3-authenticator-backend/**/logs/*
+
+### example files ###
+example/*
+.vscode/*
+scripts/logs/*
+scripts/tmp/*

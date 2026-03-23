@@ -1,0 +1,57 @@
+post:
+  tags:
+  - account/user
+  summary: ' 個人ユーザ登録API'
+  description: |-
+    ## 概要
+    ユーザ（個人）を新規登録します。  
+    リクエストヘッダーに設定されたアクセストークンに紐づく権限により、登録操作が制限されます。 
+    - 操作権限が不足している場合、HTTPステータスコード 403 Forbidden を返却します。
+
+  parameters:
+    - $ref: '../../components/headers/request.yaml#/requestHeaders/Content-Type'
+    - $ref: '../../components/headers/request.yaml#/requestHeaders/User-Agent'
+    - $ref: '../../components/headers/request.yaml#/requestHeaders/Accept-Language'
+    - $ref: '../../components/headers/request.yaml#/requestHeaders/X-TrackingID'
+
+  security:
+  - API-Key: []
+    Authorization: []
+  x-codegen-request-body-name: RequestBody
+
+  requestBody:
+    description: リクエスト情報
+    content:
+      application/json:
+        schema:
+          $ref: '../../components/schemas/user/userInputModel.yaml#/userInputModel'
+
+  responses:
+    '201':
+      description: |-
+        ユーザの登録に成功しました。  
+        登録されたユーザ情報を返却します。
+      headers:
+        $ref: '../../components/headers/responses.yaml#/responseHeaders'
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '../../components/schemas/common/httpResponses.yaml#/httpResponses'
+              - $ref: '../../components/schemas/user/userOutputModel.yaml#/userPasswordOutputModel'
+    "400":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/400'
+    "401":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/401'
+    "403":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/403'
+    "404":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/404'
+    "409":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/409'
+    "415":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/415'
+    "500":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/500'
+    "503":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/503'

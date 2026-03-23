@@ -1,0 +1,116 @@
+# クライアントID更新情報返却モデル(クライアント認証用)
+# ------------------------------------------
+clientOutputModel:
+  type: object
+  description: |-
+    クライアントID発行情報モデル
+    - クライアント情報を返却します
+  title: clientOutputModel
+  required:
+  - data
+  properties:
+    data:
+      allOf:
+        - $ref: "#/updateProperties"
+        - $ref: "#/clientProperties"
+
+# クライアントID更新情報返却モデル(認可コードフロー用)
+# ------------------------------------------
+authOutputModel:
+  type: object
+  description: |-
+    クライアントID更新情報モデル
+    - クライアント情報を返却します
+  title: authOutputModel
+  required:
+  - data
+  properties:
+    data:
+      allOf:
+        - $ref: "#/updateProperties"
+        - $ref: "#/authProperties"
+
+# クライアントプロパティ
+# ------------------------------------------
+updateProperties:
+  type: object
+  description: |-
+    APIの実行結果のデータオブジェクト
+  required:
+    - flow_type
+
+  properties:
+    name:
+      type: string
+      minLength: 0
+      maxLength: 255
+      description: |-
+        クライアント名
+        - クライアントの名前を指定します。
+      example: "My Client System"
+    description: 
+      type: string
+      minLength: 0
+      maxLength: 255
+      description: |-
+        クライアントの概要
+        - クライアントの説明を指定します。
+      example: "This is my client system for accessing the API."
+ 
+    flow_type:
+      type: string
+      enum:
+        - client_credentials
+        - authorization_code
+      description: |
+        登録するクライアントの認証方式
+        - client_credentials: クライアントクレデンシャル認証
+        - authorization_code: 認可コードフロー
+      example: "client_credentials"
+
+# 認可コードプロパティ
+# ------------------------------------------
+authProperties:
+  type: object
+  description: |-
+    APIの実行結果のデータオブジェクト
+
+  properties:
+    redirect_uris:
+      type: array
+      description: |-
+        リダイレクトURI一覧
+        - 認可コードフロー等で使用されるリダイレクトURIを複数指定できます。
+      items:
+        type: string
+        minLength: 1
+        maxLength: 255
+      example:
+        - "https://example.com/redirect1"
+        - "https://example.com/redirect2"
+
+# クライアントクレデンシャルプロパティ
+# ------------------------------------------
+clientProperties:
+  type: object
+  description: |-
+    APIの実行結果のデータオブジェクト
+
+  properties:
+    open_system_id:
+      type: string
+      minLength: 1
+      maxLength: 255
+      description: |-
+        オープンシステムID
+      example: "system_001"
+
+    operator_id:
+        type: string
+        format: uuid
+        minLength: 36
+        maxLength: 36
+        description: |-
+          事業者識別子（内部）
+          - 事業者を一意に識別するための識別子です。
+        example: "d9a38406-cae2-4679-b052-15a75f5531e6"

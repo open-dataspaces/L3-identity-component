@@ -1,0 +1,155 @@
+# トークン情報モデル
+# ------------------------------------------
+tokenOutputModel:
+  type: object
+  description: |-
+    トークン情報モデル
+    - アクセストークン情報を返却します
+    - リフレッシュトークン情報を返却します
+    - IDトークン情報を返却します
+  title: tokenOutputModel
+  required:
+  - data
+  properties:
+    data:
+      allOf:
+        - $ref: "#/accessTokenProperties"
+        - $ref: "#/refreshTokenAndIdTokenProperties"
+        - $ref: "#/idTokenAndIdTokenProperties"
+
+# トークン情報モデル（リソースオーナークレデンシャルフロー）
+# ------------------------------------------
+tokenPasswordOutputModel:
+  type: object
+  description: |-
+    トークン情報モデル
+    - アクセストークン情報を返却します
+    - リフレッシュトークン情報を返却します
+    - IDトークン情報は含まれません
+  title: tokenPasswordOutputModel
+  required:
+  - data
+  properties:
+    data:
+      allOf:
+        - $ref: "#/accessTokenProperties"
+        - $ref: "#/refreshTokenAndIdTokenProperties"
+
+# トークン情報モデル（クライアントクレデンシャルフロー）
+# ------------------------------------------
+tokenClientOutputModel:
+  type: object
+  description: |-
+    アクセストークン情報モデル
+    - アクセストークン情報を返却します
+    - リフレッシュトークンおよびIDトークン情報は含まれません
+  title: tokenClientOutputModel
+  required:
+  - data
+  properties:
+    data:
+      $ref: "#/accessTokenProperties"
+
+
+# アクセストークンプロパティ
+# ------------------------------------------
+accessTokenProperties:
+  type: object
+  description: |-
+    APIの実行結果のデータオブジェクト
+  required:
+    - access_token
+    - expires_in
+    - token_type
+    - not_before_policy
+    - scope
+
+  properties:
+    access_token:
+      type: string
+      description: |-
+        アクセストークン
+        - IDPから取得したアクセストークン
+        - Authorizationヘッダに設定してAPIを呼び出す際に使用します。
+      example: "eyJhbGciOiJSUzI1NiIsInR5cC...HiFZcDhzDEg"
+
+    expires_in:
+      type: integer
+      description: |-
+        アクセストークンの有効期限（秒単位）
+        - IDPから取得したアクセストークンの有効期限
+        - アクセストークンの有効期限が切れた場合、リフレッシュトークンを用いてアクセストークンを再取得する必要があります。
+      example: 300
+
+    token_type:
+      type: string
+      description: |-
+        アクセストークンのタイプ
+        - IDPから取得したアクセストークンのタイプ
+        - 通常は "Bearer" が返却されます。
+      example: "Bearer"
+
+    not_before_policy:
+      type: integer
+      description: |-
+        アクセストークンの適用開始時刻（秒単位）
+        - IDPから取得したアクセストークンの適用開始時刻。
+        - 0 はすぐに適用されることを意味します。
+        - 返却される値はIDPの設定に依存します。
+      example: 0
+
+    scope:
+      type: string
+      description: |-
+        クライアントスコープ
+        - 認可コード取得時に許可されたスコープが返却されます。
+      example: "openid scope1 scope2"
+
+# リフレッシュトークン・IDトークンプロパティ
+# ------------------------------------------
+idTokenAndIdTokenProperties:
+  type: object
+  description: |-
+    APIの実行結果のデータオブジェクト
+  required:
+    - id_token
+
+  properties:
+    id_token:
+      type: string
+      format: jwt
+      description: |-
+        IDトークン
+        - ユーザの認証情報を含むIDトークン
+        - IDトークンはJWT形式で、ユーザの情報や認証状態を含みます。
+      example: "eyJhbGciOiJSUzI1NiIsInR5cCI...IiwibWFuYWdlL"
+
+
+# リフレッシュトークン・IDトークンプロパティ
+# ------------------------------------------
+refreshTokenAndIdTokenProperties:
+  type: object
+  description: |-
+    APIの実行結果のデータオブジェクト
+  required:
+    - refresh_token
+    - refresh_expires_in
+
+  properties:
+    refresh_token:
+      type: string
+      description: |-
+        IDPから取得したリフレッシュトークン
+        - アクセストークンの更新に使用するリフレッシュトークン
+        - アクセストークンの有効期限が切れた場合、リフレッシュトークンを用いてアクセストークンを再取得する必要があります。
+        - リフレッシュトークンの有効期限が切れた場合、再度認証を行う必要があります。
+      example: "eyJhbGciOiJIUzUxMiIsInR5...9w67QsdnDQ"
+
+    refresh_expires_in:
+      type: integer
+      description: |-
+        リフレッシュトークンの有効期限（秒単位）
+        - IDPから取得したリフレッシュトークンの有効期限
+        - リフレッシュトークンの有効期限が切れた場合、再度認証を行う必要があります。
+      example: 3600
+

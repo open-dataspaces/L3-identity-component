@@ -1,0 +1,149 @@
+# 属性（事業所）情報取得 -------------------------------------------------------
+get:
+  tags:
+  - account/operator/plant
+  summary: '属性（事業所）情報取得API'
+  description: |-
+    ## 概要
+    属性（事業所）情報を取得します。  
+
+    リクエストヘッダーに設定されたアクセストークンに紐づく権限により、取得操作が制限されます。  
+    操作権限は、認可タプル登録APIにて権限追加が可能です。
+    - 操作権限が不足している場合、HTTPステータスコード 403 Forbidden を返却します。
+
+  parameters:
+    # Path Parameter
+    - name: plant_id
+      in: path
+      required: true
+      description: |-
+        事業所識別子（内部）
+        - 事業所を一意に識別する識別子です。
+      schema:
+        type: string
+        format: uuid
+        minLength: 36
+        maxLength: 36
+        example: "d9a38406-cae2-4679-b052-15a75f5531e6"
+
+    # Header Parameter
+    - $ref: '../../components/headers/request.yaml#/requestHeaders/Content-Type'
+    - $ref: '../../components/headers/request.yaml#/requestHeaders/User-Agent'
+    - $ref: '../../components/headers/request.yaml#/requestHeaders/Accept-Language'
+    - $ref: '../../components/headers/request.yaml#/requestHeaders/X-TrackingID'
+
+  security:
+  - API-Key: []
+    Authorization: []
+  x-codegen-request-body-name: RequestBody
+
+  # リクエストボディなし
+
+  responses:
+    '200':
+      description: |-
+        属性（事業所）情報の取得に成功しました。  
+        取得した属性（事業所）情報を返却します。
+      headers:
+        $ref: '../../components/headers/responses.yaml#/responseHeaders'
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '../../components/schemas/common/httpResponses.yaml#/httpResponses'
+              - $ref: '../../components/schemas/plant/plantOutputModel.yaml#/plantGetOutputModel'
+    "400":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/400'
+    "401":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/401'
+    "403":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/403'
+    "404":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/404'
+    "415":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/415'
+    "500":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/500'
+    "503":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/503'
+
+# 属性（事業所）情報更新 -------------------------------------------------------
+put:
+  tags:
+  - account/operator/plant
+  summary: '属性（事業所）情報更新API'
+  description: |-
+    ## 概要
+    属性（事業所）情報を更新します。  
+    指定した任意項目の値を更新します。  
+
+    リクエストヘッダーに設定されたアクセストークンに紐づく権限により、更新操作が制限されます。  
+
+    以下の場合において、403 Forbidden を返却します。
+    - 操作権限が不足している場合
+      - 操作権限は、認可タプル登録APIにて権限追加を行うことによって更新操作が可能です。
+    - 無効（有効期間外含む）状態の属性（事業所）の場合  
+      - 1度、属性（事業所）情報ステータス更新APIを実行し、有効化を行うことによって更新操作が可能です。
+
+  parameters:
+    # Path Parameter
+    - name: plant_id
+      in: path
+      required: true
+      description: |-
+        事業所識別子（内部）
+        - 事業所を一意に識別する識別子です。
+      schema:
+        type: string
+        format: uuid
+        minLength: 36
+        maxLength: 36
+        example: "d9a38406-cae2-4679-b052-15a75f5531e6"
+
+    # Header Parameter
+    - $ref: '../../components/headers/request.yaml#/requestHeaders/Content-Type'
+    - $ref: '../../components/headers/request.yaml#/requestHeaders/User-Agent'
+    - $ref: '../../components/headers/request.yaml#/requestHeaders/Accept-Language'
+    - $ref: '../../components/headers/request.yaml#/requestHeaders/X-TrackingID'
+ 
+  security:
+  - API-Key: []
+    Authorization: []
+  x-codegen-request-body-name: RequestBody
+
+  requestBody:
+    description: リクエスト情報
+    content:
+      application/json:
+        schema:
+          $ref: '../../components/schemas/plant/plantPutInputModel.yaml#/plantPutInputModel'
+
+  responses:
+    '200':
+      description: |-
+        属性（事業所）情報の更新に成功しました。  
+        更新された属性（事業所）情報を返却します。
+      headers:
+        $ref: '../../components/headers/responses.yaml#/responseHeaders'
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '../../components/schemas/common/httpResponses.yaml#/httpResponses'
+              - $ref: '../../components/schemas/plant/plantOutputModel.yaml#/plantGetOutputModel'
+    "400":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/400'
+    "401":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/401'
+    "403":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/403'
+    "404":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/404'
+    "409":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/409'
+    "415":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/415'
+    "500":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/500'
+    "503":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/503'

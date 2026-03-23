@@ -1,0 +1,39 @@
+introspectInputModel:
+  type: object
+  description: |-
+    トークンイントロスペクションAPI
+    の Request Body
+  title: introspectInputModel
+  required:
+  - client_id
+  - client_secret
+  - access_token
+  properties:
+    client_id:
+      type: string
+      pattern: '^[A-Za-z0-9_-]+$'
+      minLength: 1
+      maxLength: 239
+      description: |
+        クライアントID
+        - 認証認可を行うIDPのクライアントIDを指定します。
+        - IDPに登録されているクライアントアプリケーションを識別するための一意の文字列です。
+      example: "abc123xyz"
+
+    client_secret:
+      type: string
+      minLength: 1
+      maxLength: 255
+      description: |
+        クライアントシークレット
+        - クライアントIDに対応するクライアントシークレットを指定します。
+        - クライアントIDをIDPに登録した際に発行される秘密鍵です。
+      example: "abc123xyz"
+
+    access_token:
+      type: string
+      description: |
+        アクセストークン
+        - 有効なトークンか検証するアクセストークンを指定します。
+      example: "eyJraWQiOiJrZXkiLCJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9..."
+

@@ -1,0 +1,58 @@
+# docker compose -p ods-l3-app -f docker/docker-compose-local.yaml up --build -d
+
+version: '3.8'
+
+services:
+  ods-app:
+    build:
+      context: ..   # Set context to the parent directory
+      dockerfile: docker/Dockerfile-local
+    ports:
+      - "8090:8080"   # Map host port 8090 to container port 8080
+    environment:
+      # Environment Variables for Spring Boot Application
+      SPRING_PROFILES_ACTIVE: local
+      # Database Configuration
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: org.postgresql.Driver
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres_dev:5432/db_ods
+      SPRING_DATASOURCE_USERNAME: app_ods
+      SPRING_DATASOURCE_PASSWORD: password
+      # logging level
+      LOGGING_LEVEL_COM_ODS: DEBUG
+      # Keycloak Configuration
+      KEYCLOAK_REALM: master
+      KEYCLOAK_API_ENDPOINT: http://id.ods.localhost   # Connection URL from the ODS application to Keycloak (via reverse proxy)
+      KEYCLOAK_CREDENTIALS_ADMIN_REALM: master
+      KEYCLOAK_CREDENTIALS_ADMIN_USERNAME: admin
+      KEYCLOAK_CREDENTIALS_ADMIN_PASSWORD: Pass@123
+      KEYCLOAK_CREDENTIALS_ADMIN_CLIENT_ID: admin-cli
+      # Keycloak Authorization Flow URL
+      KEYCLOAK_AUTHORIZATION_URL: http://id.ods.localhost # Connection URL from the localhost to Keycloak
+      # Flag to enable IP restriction
+      ODS_ENABLE_IP_RESTRICTION: true
+      # Database SSL Settings
+      ODS_DATABASE_SSL: false
+      # OpenFGA Configuration
+      OPENFGA_API_ENDPOINT: http://authz.ods.localhost   # Connection URL from the ODS application to OpenFGA (via reverse proxy)
+    networks:
+      shared-network-ods:
+          aliases:
+            - ods-app
+
+  reverse-proxy:
+    image: nginx:stable
+    ports:
+      - "80:80"  # HTTP Port
+    networks:
+      shared-network-ods:
+        aliases:
+          - app.ods.localhost # Alternative hostname for ods-app
+          - id.ods.localhost  # Alternative hostname for keycloak_dev
+          - authz.ods.localhost # Alternative hostname for openfga_dev
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+
+networks:
+  # Use an external network named 'shared-network-ods'
+  shared-network-ods:
+    external: true

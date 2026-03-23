@@ -1,0 +1,98 @@
+post:
+  tags:
+  - authz
+  summary: 認可判定API
+  description: |-
+    PDPに対して認可の判定を行います。  
+    リクエストボディおよびレスポンスボディの一部のスキーマ定義はOpenFGAのエンドポイントの仕様に準拠するため、本ドキュメントでは省略しています。  
+    詳細は外部ドキュメントを参照してください。  
+    該当エンドポイント： `POST /stores/{store_id}/access/v1/evaluation`  
+    - OpenFGA API Readme(PoC Authzen)：https://github.com/openfga/openfga/blob/poc/authzen-1/docs/authzen/README.md
+    - Authorization API 1.0 – draft 02：https://openid.net/specs/authorization-api-1_0-02.html#name-access-evaluation-api
+  externalDocs:
+    description: OpenFGA API Readme(PoC Authzen)
+    url: https://github.com/openfga/openfga/blob/poc/authzen-1/docs/authzen/README.md
+
+  parameters:
+    # Path Parameter
+    - name: store_id
+      in: path
+      required: true
+      description: |-
+        ストアID  
+        - 認可ストアを一意に識別するための識別子です。
+      schema:
+        type: string
+        format: ulid
+        minLength: 26
+        maxLength: 26
+        example: "01ARZ3NDEKTSV4RRFFQ69G5FAV"
+    # Request Headers
+    - $ref: '../../components/headers/request.yaml#/requestHeaders/Content-Type'
+    - $ref: '../../components/headers/request.yaml#/requestHeaders/User-Agent'
+    - $ref: '../../components/headers/request.yaml#/requestHeaders/Accept-Language'
+    - $ref: '../../components/headers/request.yaml#/requestHeaders/X-TrackingID'
+
+  security:
+  - API-Key: []
+    Authorization: []
+
+  requestBody:
+    description: Request Body
+    content:
+      application/json:
+        schema:
+          type: object
+          description: "ダミーのスキーマ。実際の詳細は外部ドキュメントを参照してください。"
+          additionalProperties: true
+        description: |
+          このプロパティはOpenFGAが提供するAPIエンドポイントに準拠したJSON形式です。  
+          詳細はhttps://github.com/openfga/openfga/blob/poc/authzen-1/docs/authzen/README.md を参照してください。
+        externalDocs:
+          description: OpenFGA API Readme(PoC Authzen)
+          url: https://github.com/openfga/openfga/blob/poc/authzen-1/docs/authzen/README.md
+        examples:
+          external_spec_reference:
+            summary: "認可ストアに対する認可判定"
+            description: |-
+              スキーマ定義はこのドキュメントでは省略しています。  
+              詳細は外部ドキュメントを参照してください。
+            value: {}
+
+  responses:
+    "200":
+      headers:
+        $ref: '../../components/headers/responses.yaml#/responseHeaders'
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '../../components/schemas/common/httpResponses.yaml#/httpResponses'
+              - type: object
+                properties:
+                  data:
+                    type: object
+                    example: {}
+                    # スキーマ定義は省略し、説明のみ記載
+                    description: |
+                      このレスポンスボディは OpenFGAが提供するAPIエンドポイントに準拠したレスポンスオブジェクトです。  
+                      詳細はhttps://github.com/openfga/openfga/blob/poc/authzen-1/docs/authzen/README.md を参照してください。
+                    # 必要に応じて externalDocs を追加
+                    externalDocs:
+                      description: OpenFGA API Readme(PoC Authzen)
+                      url: https://github.com/openfga/openfga/blob/poc/authzen-1/docs/authzen/README.md
+    "400":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/400'
+    "401":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/401'
+    "403":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/403'
+    "404":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/404'
+    "415":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/415'
+    "500":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/500'
+    "503":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/503'
+

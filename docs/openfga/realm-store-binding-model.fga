@@ -1,0 +1,8 @@
+model
+  schema 1.1
+
+type realm
+
+type store
+  relations
+    define bound_to: [realm]

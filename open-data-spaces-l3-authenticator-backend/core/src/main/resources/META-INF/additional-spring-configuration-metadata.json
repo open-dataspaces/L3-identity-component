@@ -1,0 +1,174 @@
+{
+  "properties": [
+    {
+      "name": "ods.application-env-name",
+      "type": "java.lang.String",
+      "description": "Application environment name"
+    },
+    {
+      "name": "ods.enable-ip-restriction",
+      "type": "java.lang.Boolean",
+      "description": "Is enable ip restriction for each api"
+    },
+    {
+      "name": "ods.database-ssl",
+      "type": "boolean",
+      "description": "Is enable ssl for database connection"
+    },
+    {
+      "name": "ods.default-effective-end-date",
+      "type": "java.lang.String",
+      "description": "Is default effective end date"
+    },
+    {
+      "name": "ods.database-ssl",
+      "type": "java.lang.Boolean",
+      "description": "Database ssl connection enabled"
+    },
+    {
+      "name": "ods.database-ssl-mode",
+      "type": "java.lang.String",
+      "description": "Database ssl mode"
+    },
+    {
+      "name": "ods.database-ssl-root-cert",
+      "type": "java.lang.String",
+      "description": "Database ssl root certificate"
+    },
+    {
+      "name": "ods.database-ssl-cert",
+      "type": "java.lang.String",
+      "description": "Database ssl certificate"
+    },
+    {
+      "name": "ods.database-ssl-key",
+      "type": "java.lang.String",
+      "description": "Database ssl key"
+    },
+    {
+      "name": "ods.cors.properties-enabled",
+      "type": "boolean",
+      "description": "Enable CORS configuration via properties. If disabled, all requests are allowed by default."
+    },
+    {
+      "name": "ods.cors.path-pattern",
+      "type": "java.lang.String",
+      "description": "Is CORS path pattern"
+    },
+    {
+      "name": "ods.cors.allowed-origins",
+      "type": "java.lang.String[]",
+      "description": "Is CORS allowed origins"
+    },
+    {
+      "name": "ods.cors.allowed-methods",
+      "type": "java.lang.String[]",
+      "description": "Is CORS allowed methods"
+    },
+    {
+      "name": "ods.cors.allowed-headers",
+      "type": "java.lang.String[]",
+      "description": "Is CORS allowed headers"
+    },
+    {
+      "name": "ods.cors.allow-credentials",
+      "type": "boolean",
+      "description": "Is CORS allow credentials"
+    },
+    {
+      "name": "ods.cors.max-age",
+      "type": "long",
+      "description": "Is CORS max age"
+    },
+    {
+      "name": "keycloak.realm",
+      "type": "java.lang.String",
+      "description": "Is keycloak master realm"
+    },
+    {
+      "name": "keycloak.api-endpoint",
+      "type": "java.lang.String",
+      "description": "Is keycloak api endpoint url"
+    },
+    {
+      "name": "keycloak.credentials.admin-realm",
+      "type": "java.lang.String",
+      "description": "Is keycloak administrator operation realm"
+    },
+    {
+      "name": "keycloak.credentials.admin-username",
+      "type": "java.lang.String",
+      "description": "Is keycloak administrator operation username"
+    },
+    {
+      "name": "keycloak.credentials.admin-password",
+      "type": "java.lang.String",
+      "description": "Is keycloak administrator operation password"
+    },
+    {
+      "name": "keycloak.credentials.admin-client-id",
+      "type": "java.lang.String",
+      "description": "Is keycloak administrator operation client id"
+    },
+    {
+      "name": "keycloak.authorization.url",
+      "type": "java.lang.String",
+      "description": "Is keycloak authorization flow base url"
+    },
+    {
+      "name": "keycloak.authorization.response-type",
+      "type": "java.lang.String",
+      "description": "Is keycloak authorization flow response type"
+    },
+    {
+      "name": "keycloak.authorization.scope",
+      "type": "java.lang.String",
+      "description": "Is keycloak authorization flow scope"
+    },
+    {
+      "name": "keycloak.authorization.code-challenge-method",
+      "type": "java.lang.String",
+      "description": "Is keycloak authorization flow code challenge method"
+    },
+    {
+      "name": "openfga.api-endpoint",
+      "type": "java.lang.String",
+      "description": "Is openfga api endpoint url"
+    },
+    {
+      "name": "openfga.preshared-key",
+      "type": "java.lang.String",
+      "description": "Is openfga preshared key"
+    },
+    {
+      "name": "ods.jwt.jwks-cache-duration-second",
+      "type": "long",
+      "description": "A description for 'ods.jwt.jwks-cache-duration-second'"
+    },
+    {
+      "name": "ods.jwt.jwks-cache-size",
+      "type": "long",
+      "description": "A description for 'ods.jwt.jwks-cache-size'"
+    },
+    {
+      "name": "ods.jwt.claim-expected-audience",
+      "type": "java.lang.String",
+      "description": "A description for 'ods.jwt.claim-expected-audience'"
+    },
+    {
+      "name": "ods.jwt.claim-expected-type",
+      "type": "java.lang.String",
+      "description": "A description for 'ods.jwt.claim-expected-type'"
+    },
+    {
+      "name": "ods.enable-uc-authorization",
+      "type": "boolean",
+      "description": "Is UC authorization enabled"
+    },
+    {
+      "name": "ods.enable-operator-plant-authorization",
+      "type": "boolean",
+      "description": "Is operator plant authorization enabled"
+    }
+  ]
+}

@@ -1,0 +1,80 @@
+# ユーザモデル
+# ------------------------------------------
+userOutputModel:
+  type: object
+  required:
+    - data
+  description: |-
+    ユーザ情報
+    - 登録されたユーザ情報を返却します。
+  properties:
+    data:
+      allOf:
+        - $ref: "#/userAccountProperties"
+        - $ref: "#/userProperties"
+
+# ユーザ（初期パスワード付き）モデル
+# ------------------------------------------
+userPasswordOutputModel:
+  type: object
+  required:
+    - data
+  description: |-
+    ユーザ情報
+    - 登録されたユーザ情報を返却します。
+    - システムで生成された初期パスワードを返却します。
+  properties:
+    data:
+      allOf:
+        - $ref: "#/userAccountProperties"
+        - $ref: "#/userPasswordProperties"
+
+# 初期パスワード含むプロパティ
+# ------------------------------------------
+userPasswordProperties:
+  type: object
+  description: |-
+    ユーザ情報
+  properties:
+    # パスワード制御関連 -----------------------------
+    password:
+      type: string
+      minLength: 8
+      maxLength: 20
+      pattern: '^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*()])[A-Za-z0-9!@#$%^&*()]+$'
+      nullable: true
+      description: |-
+        パスワード
+        - 登録されたパスワード
+        - create_password_flagが false の場合は値は設定されません。
+      example: "xx@&1234Pass"
+
+# IDPアカウント関連
+# ------------------------------------------
+userAccountProperties:
+  type: object
+  required:
+    - login_user_id
+    - operator_id
+  properties:
+    # IDPアカウント関連 -----------------------------
+    login_user_id:
+      type: string
+      pattern: '^[a-z0-9_.-@]+$'
+      minLength: 3
+      maxLength: 255
+      description: |-
+        ログインユーザID
+        - ログインに使用するIDです。
+        - 既に登録されているログインユーザIDを使用することはできず、登録済みの場合はエラーとなります。
+      example: "login_user_id_12345"
+
+    operator_id:
+      type: string
+      format: uuid
+      minLength: 36
+      maxLength: 36
+      description: |-
+        ユーザ識別子（内部）
+        - システム内で利用するユーザの一意な識別子が返却されます。
+      example: "d9a38406-cae2-4679-b052-15a75f5531e6"

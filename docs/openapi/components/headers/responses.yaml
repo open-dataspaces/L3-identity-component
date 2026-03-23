@@ -1,0 +1,59 @@
+responseHeaders:
+  # 共通のレスポンスヘッダー
+  # API設計開発ガイドライン 7.2 レスポンスヘッダー
+  # ------------------------------------------------
+  Content-Security-Policy:
+    description: コンテンツセキュリティポリシー
+    schema:
+      type: string
+      example: "default-src 'none'"
+  X-Content-Type-Options:
+    description: MIMEタイプのスニッフィング防止
+    schema:
+      type: string
+      example: "nosniff"
+  Strict-Transport-Security:
+    description: HTTPS強制ポリシー
+    schema:
+      type: string
+      example: "max-age=63072000; includeSubDomains"
+  X-TrackingID:
+    $ref: "./request.yaml#/requestHeaders/X-TrackingID"
+
+  # CORS関連ヘッダー
+  # API設計開発ガイドライン 4.3.2 CORSレスポンス
+  # ------------------------------------------------
+  Access-Control-Allow-Origin:
+    description: 許可されたオリジン
+    schema:
+      type: string
+      example: https://example.com/
+  Access-Control-Allow-Methods:
+    description: 許可されたHTTPメソッド
+    schema:
+      type: string
+      example: GET, POST, OPTIONS
+  Access-Control-Allow-Headers:
+    description: 許可されたHTTPヘッダー
+    schema:
+      type: string
+      example: Content-Type, Authorization
+  Access-Control-Allow-Credentials:
+    description: 認証情報の送信可否
+    schema:
+      type: string
+      example: "true"
+
+# HTTPステータスがエラーの場合のレスポンスヘッダ
+# ------------------------------------------------
+errorResponseHeaders:
+  # 共通のレスポンスヘッダー
+  # API設計開発ガイドライン 7.2 レスポンスヘッダー
+  Content-Security-Policy:
+    $ref: "./responses.yaml#/responseHeaders/Content-Security-Policy"
+  X-Content-Type-Options:
+    $ref: "./responses.yaml#/responseHeaders/X-Content-Type-Options"
+  Strict-Transport-Security:
+    $ref: "./responses.yaml#/responseHeaders/Strict-Transport-Security"
+  X-TrackingID:
+    $ref: "./responses.yaml#/responseHeaders/X-TrackingID"

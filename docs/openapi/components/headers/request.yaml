@@ -1,0 +1,73 @@
+requestHeaders:
+  # APIキー認証ヘッダ
+  # すべてのAPIはAPIキー認証を使用する
+  # API-Key:
+  #   name: API-Key
+  #   in: header
+  #   description: システムに払い出されているAPIKey
+  #   required: true
+  #   schema:
+  #     type: string
+  #     example: "12345-abcde-67890-fghij"
+
+  # 認証・認可ヘッダ
+  # アクセストークンを用いるAPIで使用する
+  # Authorization:
+  #   name: Authorization
+  #   in: header
+  #   description: Bearer 認証にて取得したアクセストークン
+  #   required: true
+  #   schema:
+  #     type: string
+  #     format: "Bearer {access_token}"
+  #     example: "Bearer eyJhbGciOiJSUz...BQOpB2Vw"
+
+  # 共通リクエストヘッダ
+  # API設計開発ガイドライン 6.2.リクエストヘッダー
+  Content-Type:
+    name: Content-Type
+    in: header
+    description: |
+      リクエストのコンテンツタイプ
+      - "application/json" を指定してください。
+    required: true
+    schema:
+      type: string
+      example: "application/json"
+      default: "application/json"
+  User-Agent:
+    name: User-Agent
+    in: header
+    description: |
+      リクエストを送信したクライアントのユーザーエージェント
+      - ブラウザやアプリケーションのUser-Agentを指定してください。
+    required: false
+    schema:
+      type: string
+      example: |
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML,like Gecko) Chrome/58.0.3029.110 Safari/537.3"
+      default: ""
+  Accept-Language:
+    name: Accept-Language
+    in: header
+    description: |
+      クライアントが受け入れる言語
+      - "ja-JP" を指定してください。
+    required: false
+    schema:
+      type: string
+      example: "ja-JP"
+      default: "ja-JP"
+
+  X-TrackingID:
+    name: X-TrackingID
+    in: header
+    description: |
+      リクエストのトレーシングを行う一意なID
+      - トレーシング機能の実装はなく、受領・返却のみが行われます。
+    required: false
+    schema:
+      type: string
+      example: "correlation-id-12345"
+      default: ""
+

@@ -1,0 +1,45 @@
+plantPutStatusInputModel:
+  type: object
+  required:
+    - updated_at
+  description: |-
+    属性（事業所）情報ステータス更新API
+    の Request Body
+  properties:
+    # 排他制御用 更新日時
+    updated_at:
+      type: string
+      format: date-time
+      minLength: 24
+      maxLength: 24
+      description: |-
+        更新日時
+        - データが他APIで更新されていないことを検査するために使用します。
+        - YYYY-MM-DDTHH:mm:ss.sssZ形式。
+        - 属性（事業所）情報取得APIにて最新の更新日時を取得し、設定してください。
+        - 指定した更新日時とデータベース内の更新日時が不一致の場合、更新処理を拒否します。
+      example: "2030-12-31T23:59:59.999Z"
+
+    # 有効日制御関連 -----------------------------
+    effective_start_date:
+      type: string
+      format: date
+      description: |-
+        属性（事業所）情報の有効開始日
+        - 登録された属性（事業所）情報の有効開始日です。
+        - YYYY-MM-DD形式
+      example: "2025-01-01"
+
+    effective_end_date:
+      type: string
+      format: date
+      description: |-
+        属性（事業所）情報の有効終了日
+        - 登録された属性（事業所）情報の有効終了日です。
+        - YYYY-MM-DD形式
+      example: "2030-12-31"
+
+    # 無効化フラグ
+    deleted_flag:
+      $ref: "./plantOutputModel.yaml#/plantProperties/properties/deleted_flag"
+

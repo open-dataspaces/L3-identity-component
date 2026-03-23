@@ -1,0 +1,35 @@
+plantInputModel:
+  type: object
+  required:
+    - operator_id
+    - plant_name
+    - plant_address
+    - open_plant_id
+  description: |-
+    属性（事業所）情報登録API
+    の Request Body
+  properties:
+    # IDPアカウント関連 -----------------------------
+    operator_id:
+      $ref: "./plantOutputModel.yaml#/plantProperties/properties/operator_id"
+
+    # 事業所情報関連 -----------------------------
+    plant_name:
+      $ref: "./plantOutputModel.yaml#/plantProperties/properties/plant_name"
+
+    plant_address:
+      $ref: "./plantOutputModel.yaml#/plantProperties/properties/plant_address"
+
+    open_plant_id:
+      $ref: "./plantOutputModel.yaml#/plantProperties/properties/open_plant_id"
+    
+    global_plant_id:
+      $ref: "./plantOutputModel.yaml#/plantProperties/properties/global_plant_id"
+
+    # 有効日制御関連 -----------------------------
+    effective_start_date:
+      $ref: "./plantOutputModel.yaml#/plantProperties/properties/effective_start_date"
+
+    effective_end_date:
+      $ref: "./plantOutputModel.yaml#/plantProperties/properties/effective_end_date"
+

@@ -1,0 +1,69 @@
+authRegistrationInputModel:
+  type: object
+  description: |
+    ## 概要
+    クライアントIDを新規登録します。 
+
+  title: authRegistrationInputModel
+  required:
+  - flow_type
+  - client_id
+  - redirect_uris
+  - operator_id
+
+  properties:
+    flow_type:
+      type: string
+      enum:
+        - authorization_code
+      description: |
+        登録するクライアントの認証方式
+        - authorization_code: 認可コードフロー
+      example: "authorization_code"
+      
+    client_id:
+      type: string
+      pattern: '^[A-Za-z0-9_-]+$'
+      minLength: 1
+      maxLength: 239
+      description: |
+        クライアントID
+        - 認証認可を行うIDPのクライアントIDを指定します。
+        - IDPに登録されているクライアントアプリケーションを識別するための一意の文字列です。
+        - 既に登録済みのクライアントIDを指定した場合、409 Conflict エラーが返却されます。
+      example: "abc123xyz"
+
+    name:
+      type: string
+      minLength: 0
+      maxLength: 255
+      description: |
+        クライアント名
+        - クライアントアプリケーションの名前を指定します。
+      example: "My Application"
+
+    description:
+      type: string
+      minLength: 0
+      maxLength: 255
+      description: |
+        クライアント説明
+        - クライアントアプリケーションの説明を指定します。
+      example: "This is my application for accessing the API."
+
+    redirect_uris:
+      type: array
+      description: |
+        リダイレクトURI一覧
+        - 認可コードフロー等で使用されるリダイレクトURIを複数指定できます。
+        - 設定値についてはIdpの仕様に準拠する(https://www.keycloak.org/docs-api/latest/rest-api/index.html)
+        - *、 %、  {、 }、 半角スペース、バックスラッシュ(\\)、タブ(\t)、改行(\n)、復帰(\r)、垂直タブ(\v)、フォームフィード(\f)、全角スペース（U+3000）、NBSP など Unicode の空白のワイルドカードを禁止しています。
+      items:
+        type: string
+        pattern: '^[^*%{}\\\s\p{Zs}\p{Cc}]+$'
+        minLength: 1
+        maxLength: 255
+      example:
+        - "http://example.com/redirect1"
+        - "http://example.com/redirect2"
+

@@ -1,0 +1,55 @@
+post:
+  tags:
+  - auth/token
+  summary: トークンイントロスペクションAPI
+  description: |-
+    アクセストークンを検証し、トークンの有効性や関連情報を取得するAPIです。
+    - トークンの関連情報は、アクセストークンが有効の場合のみ返却されます。
+    - 使用するモデル : introspectInputModel
+    - 取得されるモデル : introspectOutputModel
+
+  parameters:
+    - $ref: '../../components/headers/request.yaml#/requestHeaders/Content-Type'
+    - $ref: '../../components/headers/request.yaml#/requestHeaders/User-Agent'
+    - $ref: '../../components/headers/request.yaml#/requestHeaders/Accept-Language'
+    - $ref: '../../components/headers/request.yaml#/requestHeaders/X-TrackingID'
+  
+  security:
+  - API-Key: []
+  x-codegen-request-body-name: RequestBody
+
+  requestBody:
+    description: Request Body
+    content:
+      application/json:
+        schema:
+          $ref: "../../components/schemas/token/introspectInputModel.yaml#/introspectInputModel"
+
+  responses:
+    "200":
+      description: |-
+        アクセストークンの検証に成功しました。  
+        アクセストークンの状態を返却します。
+      headers:
+        $ref: '../../components/headers/responses.yaml#/responseHeaders'
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '../../components/schemas/common/httpResponses.yaml#/httpResponses'
+              - $ref: '../../components/schemas/token/introspectOutputModel.yaml#/introspectOutputModel'
+
+    "400":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/400'
+    "401":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/401'
+    "403":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/403'
+    "404":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/404'
+    "415":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/415'
+    "500":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/500'
+    "503":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/503'

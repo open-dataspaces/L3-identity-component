@@ -1,0 +1,53 @@
+post:
+  tags:
+  - auth
+  summary: クライアントシステム認証API
+  description: |-
+    クライアントIDとクライアントシークレットを使用して、アクセストークン情報を取得するAPIです。
+    - 使用するモデル : tokenClientInputModel
+    - 取得されるモデル : tokenClientOutputModel
+
+  parameters:
+    - $ref: '../../components/headers/request.yaml#/requestHeaders/Content-Type'
+    - $ref: '../../components/headers/request.yaml#/requestHeaders/User-Agent'
+    - $ref: '../../components/headers/request.yaml#/requestHeaders/Accept-Language'
+    - $ref: '../../components/headers/request.yaml#/requestHeaders/X-TrackingID'
+
+  security:
+  - API-Key: []
+  x-codegen-request-body-name: RequestBody
+
+  requestBody:
+    description: Request Body
+    content:
+      application/json:
+        schema:
+          $ref: "../../components/schemas/auth/tokenClientInputModel.yaml#/tokenClientInputModel"
+
+  responses:
+    "200":
+      description: |-
+        アクセストークンの取得に成功しました。  
+        アクセストークンを返却します。
+      headers:
+        $ref: '../../components/headers/responses.yaml#/responseHeaders'
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '../../components/schemas/common/httpResponses.yaml#/httpResponses'
+              - $ref: '../../components/schemas/auth/tokenOutputModel.yaml#/tokenClientOutputModel'
+    "400":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/400'
+    "401":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/401'
+    "403":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/403'
+    "404":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/404'
+    "415":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/415'
+    "500":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/500'
+    "503":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/503'

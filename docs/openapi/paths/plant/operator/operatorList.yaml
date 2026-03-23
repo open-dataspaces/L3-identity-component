@@ -1,0 +1,56 @@
+post:
+  tags:
+  - account/operator
+  summary: '事業者情報一覧取得API'
+  description: |-
+    ## 概要
+    事業者情報の一覧を取得します。  
+
+  parameters:
+    # Header Parameter
+    - $ref: '../../components/headers/request.yaml#/requestHeaders/Content-Type'
+    - $ref: '../../components/headers/request.yaml#/requestHeaders/User-Agent'
+    - $ref: '../../components/headers/request.yaml#/requestHeaders/Accept-Language'
+    - $ref: '../../components/headers/request.yaml#/requestHeaders/X-TrackingID'
+ 
+  security:
+  - API-Key: []
+    Authorization: []
+  x-codegen-request-body-name: RequestBody
+
+  requestBody:
+    description: リクエスト情報
+    content:
+      application/json:
+        schema:
+          $ref: '../../components/schemas/operator/operatorListInputModel.yaml#/operatorListInputModel'
+
+  responses:
+    '200':
+      description: |-
+        事業者情報一覧の取得に成功しました。  
+        取得した事業者情報を返却します。
+        - 取得結果が 0件 でも本ステータスコードにて結果を返却します
+      headers:
+        $ref: '../../components/headers/responses.yaml#/responseHeaders'
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '../../components/schemas/common/httpResponses.yaml#/httpResponses'
+              - $ref: '../../components/schemas/operator/operatorOutputModel.yaml#/operatorListOutputModel'
+    "400":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/400'
+    "401":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/401'
+    "403":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/403'
+    "404":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/404'
+    "415":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/415'
+    "500":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/500'
+    "503":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/503'
+

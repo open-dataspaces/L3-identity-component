@@ -1,0 +1,84 @@
+name: CI
+on: [push, pull_request]
+
+jobs:
+  push-build:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    defaults:
+      # Set the default working directory for all `run` steps
+      run:
+        working-directory: open-data-spaces-l3-authenticator-backend
+    steps:
+      # Checkout the repository
+      - uses: actions/checkout@v5
+      # Set up JDK 21
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 21
+          cache: maven
+
+      # Build the application
+      - run: chmod +x mvnw
+      # Run Checkstyle with strict profile
+      - run: ./mvnw checkstyle:check -P checkstyle
+
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      # Set the default working directory for all `run` steps
+      run:
+        working-directory: open-data-spaces-l3-authenticator-backend
+    services:
+      # PostgreSQL service
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: app_ods
+          POSTGRES_PASSWORD: P@ssw0rd1234
+          POSTGRES_DB: db_ods
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      # Checkout the repository
+      - uses: actions/checkout@v5
+      # Set up JDK 21
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 21
+          cache: maven
+
+      # Install PostgreSQL client
+      - name: Install PostgreSQL client
+        run: sudo apt-get update && sudo apt-get install -y postgresql-client
+
+      # Wait for DB to be ready
+      - name: Wait for DB to be ready
+        run: |
+          for i in {1..10}; do
+            pg_isready -h localhost -p 5432 -U app_ods && break
+            echo "Waiting for DB..."
+            sleep 3
+          done
+
+      # Run DB setup script
+      - name: Run DB setup script
+        env:
+          PGPASSWORD: P@ssw0rd1234
+        run: |
+          psql -h localhost -U app_ods -d db_ods -f ../scripts/sql/3_setup_app_db.sql
+
+      # Build the application
+      - run: chmod +x mvnw
+      - run: ./mvnw clean install -B -Dspring.profiles.active=github-ci
+      # Skip both compiling and running tests
+#      - run: ./mvnw clean install -B -Dmaven.test.skip=true
+      # Skip running tests
+#      - run: ./mvnw clean install -B -DskipTests

@@ -1,0 +1,118 @@
+post:
+  tags:
+  - authz
+  summary: 認可タプル取得API
+  description: |-
+    PAPに対して認可のタプル取得を行います。  
+    リクエストボディおよびレスポンスボディの一部のスキーマ定義はOpenFGAのエンドポイントの仕様に準拠するため、本ドキュメントでは省略しています。  
+    詳細は外部ドキュメントを参照してください。  
+    該当エンドポイント： `POST /stores/{store_id}/read`
+  externalDocs:
+    description: OpenFGA API Documentation
+    url: https://openfga.dev/api/service
+
+  parameters:
+    # Path Parameter
+    - name: store_id
+      in: path
+      required: true
+      description: |-
+        ストアID  
+        - 認可ストアを一意に識別するための識別子です。
+      schema:
+        type: string
+        format: ulid
+        minLength: 26
+        maxLength: 26
+        example: "01ARZ3NDEKTSV4RRFFQ69G5FAV"
+    # Request Headers
+    - $ref: '../../components/headers/request.yaml#/requestHeaders/Content-Type'
+    - $ref: '../../components/headers/request.yaml#/requestHeaders/User-Agent'
+    - $ref: '../../components/headers/request.yaml#/requestHeaders/Accept-Language'
+    - $ref: '../../components/headers/request.yaml#/requestHeaders/X-TrackingID'
+
+  security:
+  - API-Key: []
+    Authorization: []
+
+  requestBody:
+    description: Request Body
+    content:
+      application/json:
+        schema:
+          type: object
+          description: "ダミーのスキーマ。実際の詳細は外部ドキュメントを参照してください。"
+          additionalProperties: true
+        description: |
+          このプロパティはOpenFGAが提供するAPIエンドポイントに準拠したJSON形式です。  
+          詳細はhttps://openfga.dev/api/service を参照してください。
+        externalDocs:
+          description: OpenFGA API Documentation
+          url: https://openfga.dev/api/service
+        examples:
+          external_spec_reference:
+            summary: "認可ストアに対する認可タプル情報取得"
+            description: |-
+              スキーマ定義はこのドキュメントでは省略しています。  
+              詳細は外部ドキュメントを参照してください。
+            value: {}
+          authz-models-admin:
+            summary: "認可モデル登録API、認可モデル取得APIの認可タプル情報取得"
+            description: |-
+              認可モデル登録API、認可モデル取得APIの認可をユーザに付与するtuple_keyの例です。  
+              userには 事業者識別子（内部）または 公開システム識別子を指定します。  
+              tuple_keyを含むJSON形式の詳細は外部ドキュメントを参照してください。
+            value:
+              tuple_key:
+                user: "user:d9a38406-cae2-4679-b052-15a75f5531e6"
+                relation: "member"
+                object: "role:authz-models-admin"
+          authz-tuples-admin:
+            summary: "認可タプル登録API、認可タプル取得APIの認可タプル情報取得"
+            description: |-
+              認可タプル登録API、認可タプル取得APIの認可をユーザに付与するtuple_keyの例です。  
+              userには 事業者識別子（内部）または 公開システム識別子を指定します。  
+              tuple_keyを含むJSON形式の詳細は外部ドキュメントを参照してください。
+            value:
+              tuple_key:
+                user: "user:d9a38406-cae2-4679-b052-15a75f5531e6"
+                relation: "member"
+                object: "role:authz-tuples-admin"
+
+  responses:
+    "200":
+      headers:
+        $ref: '../../components/headers/responses.yaml#/responseHeaders'
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '../../components/schemas/common/httpResponses.yaml#/httpResponses'
+              - type: object
+                properties:
+                  data:
+                    type: object
+                    example: {}
+                    # スキーマ定義は省略し、説明のみ記載
+                    description: |
+                      このレスポンスボディは OpenFGAが提供するAPIエンドポイントに準拠したレスポンスオブジェクトです。  
+                      詳細はhttps://openfga.dev/api/service を参照してください。
+                    # 必要に応じて externalDocs を追加
+                    externalDocs:
+                      description: OpenFGA API Documentation
+                      url: https://openfga.dev/api/service
+    "400":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/400'
+    "401":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/401'
+    "403":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/403'
+    "404":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/404'
+    "415":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/415'
+    "500":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/500'
+    "503":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/503'
+

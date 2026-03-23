@@ -1,0 +1,26 @@
+# API-key検証レスポンスモデル
+# ------------------------------------------
+apikeyVerifyOutputModel:
+  type: object
+  required:
+    - data
+  description: |-
+    API-Key検証情報
+  properties:
+    data:
+      allOf:
+              - $ref: "#/apikeyValidateProperties"
+
+# API-Key検証レスポンス
+# ------------------------------------------
+apikeyValidateProperties:
+  type: object
+  required:
+    - verify_result
+  properties:
+    # IDPアカウント関連 -----------------------------
+    verify_result:
+      type: boolean
+      description: |-
+        APIKey検証結果
+        - 指定されたAPIKeyと一致する事業者情報が存在する場合はtrue、存在しない場合はfalseを返却します。

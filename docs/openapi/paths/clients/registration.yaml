@@ -1,0 +1,79 @@
+post:
+  tags:
+    - auth/clients
+  summary: クライアントID発行API
+  description: |-
+    クライアントIDを新規登録します。  
+    クライアントID発行後別途クライアントシークレットを取得してください。  
+    クライアントシステム認証用と認可コードフロー用の2種類に対応しています。  
+    リクエストヘッダーに設定されたアクセストークンに紐づく権限により、発行操作が制限されます。  
+    操作権限が不足している場合は、認可タプル登録APIで権限を追加してください。  
+    認可モデルの追加が必要な場合は認可モデル登録APIを利用してください。
+
+    - 操作権限が不足している場合、HTTPステータスコード 403 Forbidden を返却します。
+
+    クライアントシステム認証用
+    - 使用するモデル : clientRegistrationInputModel
+    - 取得されるモデル : clientOutputModel
+
+    認可コードフロー用
+    - 使用するモデル : authRegistrationInputModel
+    - 取得されるモデル : authOutputModel
+
+  parameters:
+    - $ref: '../../components/headers/request.yaml#/requestHeaders/Content-Type'
+    - $ref: '../../components/headers/request.yaml#/requestHeaders/User-Agent'
+    - $ref: '../../components/headers/request.yaml#/requestHeaders/Accept-Language'
+    - $ref: '../../components/headers/request.yaml#/requestHeaders/X-TrackingID'
+  security:
+    - API-Key: []
+      Authorization: []
+  x-codegen-request-body-name: RequestBody
+
+  requestBody:
+    description: リクエスト情報
+    content:
+      application/json:
+        schema:
+          oneOf:
+            - $ref: "../../components/schemas/clients/clientRegistrationInputModel.yaml#/clientRegistrationInputModel"
+            - $ref: "../../components/schemas/clients/authRegistrationInputModel.yaml#/authRegistrationInputModel"
+          discriminator:
+            propertyName: flow_type
+            mapping:
+              client_credentials: "../../components/schemas/clients/clientRegistrationInputModel.yaml#/clientRegistrationInputModel"
+              authorization_code: "../../components/schemas/clients/authRegistrationInputModel.yaml#/authRegistrationInputModel"
+
+  responses:
+    "201":
+      description: |-
+        クライアントIDの登録に成功しました。  
+        クライアント情報を返却します。
+      headers:
+        $ref: '../../components/headers/responses.yaml#/responseHeaders'
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - allOf:
+                  - $ref: '../../components/schemas/common/httpResponses.yaml#/httpResponses'
+                  - $ref: '../../components/schemas/clients/registrationOutputModel.yaml#/clientOutputModel'
+              - allOf:
+                  - $ref: '../../components/schemas/common/httpResponses.yaml#/httpResponses'
+                  - $ref: '../../components/schemas/clients/registrationOutputModel.yaml#/authOutputModel'
+    "400":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/400'
+    "401":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/401'
+    "403":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/403'
+    "404":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/404'
+    "409":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/409'
+    "415":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/415'
+    "500":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/500'
+    "503":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/503'

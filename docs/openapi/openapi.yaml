@@ -1,0 +1,276 @@
+openapi: "3.0.3"
+info:
+  title: |-
+    OPEN-DATA-SPACES  
+    認証認可システム  
+    API Docs
+  version: 1.0.0
+  description: |
+    ## 概要
+    本APIは、認証および事業者・属性情報を扱うためのエンドポイント群を提供します。  
+    全てのエンドポイントは CORS（Cross-Origin Resource Sharing）に対応しています。  
+    ※許可されるオリジンは、事前に登録された信頼済みのドメインに限定されます。
+
+    ## 変更履歴管理
+
+    ### ver.1.0.0 2026/03/19 新規作成
+
+servers:
+  - url: https://api.example.com/
+  # ここは実際のAPIサーバーのURLに置き換えてください
+    description: 認証認可システムAPI BaseURL
+
+tags:
+  - name: auth
+    description: 認証に関するAPI
+  - name: auth/token
+    description: トークン検証・更新・破棄に関するAPI
+  - name: auth/password
+    description: パスワード管理に関するAPI
+  - name: auth/apikey
+    description: API-Keyの検証に関するAPI
+  - name: authz
+    description: 認可に関するAPI
+  - name: auth/clients
+    description: クライアントID発行に関するAPI
+  - name: account/user
+    description: ユーザ管理に関するAPI
+  - name: account/operator
+    description: 事業者情報管理に関するAPI
+  - name: account/operator/plant
+    description: 属性（事業所）管理に関するAPI
+
+paths:
+  # 認証関連のAPI -----------------------------------
+  # ユーザ当人認証(認可コードフロー)_ログインURL取得API
+  /auth/url:
+    $ref: "./paths/auth/url.yaml"
+  # ユーザ当人認証(認可コードフロー)_トークン取得API
+  /auth/token:
+    $ref: "./paths/auth/token.yaml"
+  # 【非推奨】ユーザ当人認証（リソースオーナーパスワードクレデンシャルフロー）API
+  /auth/token/password:
+    $ref: "./paths/auth/tokenPassword.yaml"
+  # クライアントシステム認証API
+  /auth/token/client:
+    $ref: "./paths/auth/tokenClient.yaml"
+
+  # トークン検証・更新・破棄のAPI -----------------------------------
+  # トークン検証API
+  /auth/token/introspect:
+    $ref: "./paths/token/introspect.yaml"
+  # アクセストークン更新API
+  /auth/token/refresh:
+    $ref: "./paths/token/refresh.yaml"
+  # トークン破棄API
+  /auth/token/revoke:
+    $ref: "./paths/token/revoke.yaml"
+  
+  # パスワード管理のAPI -----------------------------------
+  # パスワード変更画面URL取得API
+  /auth/password/url:
+    $ref: "./paths/auth/passwordUrl.yaml"
+  # パスワード変更API
+  /auth/password/{operator_id}:
+    $ref: "./paths/auth/password.yaml"
+
+  # APIKey検証のAPI -----------------------------------
+  # APIKey検証API
+  /auth/apikey/verify:
+    $ref: "./paths/apikey/verify.yaml"
+    
+  # 認可関連のAPI -----------------------------------
+  /authz/stores:
+    $ref: "./paths/authz/stores.yaml"
+  /authz/stores/{store_id}:
+    $ref: "./paths/authz/store.yaml"
+  /authz/stores/{store_id}/authorization-models:
+    $ref: "./paths/authz/authorizationModels.yaml"
+  /authz/stores/{store_id}/write:
+    $ref: "./paths/authz/write.yaml"
+  /authz/stores/{store_id}/read:
+    $ref: "./paths/authz/read.yaml"
+  /authz/stores/{store_id}/access/v1/evaluation:
+    $ref: "./paths/authz/evaluation.yaml"
+  /authz/stores/{store_id}/access/v1/evaluations:
+    $ref: "./paths/authz/evaluations.yaml"
+
+  # クライアントID関連API -----------------------------------
+  # クライアントID関連API
+  /auth/clients:
+    $ref: "./paths/clients/registration.yaml"
+  /auth/clients/{client_id}:
+    $ref: "./paths/clients/clientId.yaml"
+  # クライアントシークレット取得API
+  /auth/clients/secret/{client_uuid}:
+    $ref: "./paths/clients/secret.yaml"
+
+  # ユーザ管理のAPI -----------------------------------
+  # ユーザ登録API
+  /account/user:
+    $ref: "./paths/user/user.yaml"
+
+  # 事業者情報管理のAPI -----------------------------------
+  # 事業者情報登録API
+  /account/operator:
+    $ref: "./paths/operator/operator.yaml"
+  /account/operator/{operator_id}:
+    $ref: "./paths/operator/operatorId.yaml"
+  /account/operator/status/{operator_id}:
+    $ref: "./paths/operator/operatorStatus.yaml"
+  /account/operator/list:
+    $ref: "./paths/operator/operatorList.yaml"
+
+  # 属性（事業所）情報管理のAPI -----------------------------------
+  # 属性（事業所）情報登録API
+  /account/operator/plant:
+    $ref: "./paths/plant/plant.yaml"
+  /account/operator/plant/{plant_id}:
+    $ref: "./paths/plant/plantId.yaml"
+  /account/operator/plant/status/{plant_id}:
+    $ref: "./paths/plant/plantStatus.yaml"
+  /account/operator/plant/list:
+    $ref: "./paths/plant/plantList.yaml"
+
+components:
+
+  schemas:
+    # 認証関連のSchemas -----------------------------------
+    # Input
+    auth.urlInputModel:
+      $ref: './components/schemas/auth/urlInputModel.yaml#/urlInputModel'
+    auth.tokenInputModel:
+      $ref: './components/schemas/auth/tokenInputModel.yaml#/tokenInputModel'
+    auth.tokenPasswordInputModel:
+      $ref: './components/schemas/auth/tokenPasswordInputModel.yaml#/tokenPasswordInputModel'
+    auth.tokenClientInputModel:
+      $ref: './components/schemas/auth/tokenClientInputModel.yaml#/tokenClientInputModel'
+
+    # Output
+    auth.urlOutputModel:
+      $ref: './components/schemas/auth/urlOutputModel.yaml#/urlOutputModel'
+    auth.tokenOutputModel:
+      $ref: './components/schemas/auth/tokenOutputModel.yaml#/tokenOutputModel'
+    auth.tokenClientOutputModel:
+      $ref: './components/schemas/auth/tokenOutputModel.yaml#/tokenClientOutputModel'
+
+    # トークン検証・更新・破棄のSchemas -----------------------------------
+    # Input
+    token.introspectInputModel:
+      $ref: './components/schemas/token/introspectInputModel.yaml#/introspectInputModel'
+    token.refreshInputModel:
+      $ref: './components/schemas/token/refreshInputModel.yaml#/refreshInputModel'
+    token.revokeInputModel:
+      $ref: './components/schemas/token/revokeInputModel.yaml#/revokeInputModel'
+
+    # Output
+    token.introspectOutputModel:
+      $ref: './components/schemas/token/introspectOutputModel.yaml#/introspectOutputModel'
+    token.revokeOutputModel:
+      $ref: './components/schemas/token/revokeOutputModel.yaml#/revokeOutputModel'
+
+    # パスワード管理のSchemas -----------------------------------
+    # Input
+    auth.passwordInputModel:
+      $ref: './components/schemas/auth/passwordInputModel.yaml#/passwordInputModel'
+    auth.passwordUrlInputModel:
+      $ref: './components/schemas/auth/passwordUrlInputModel.yaml#/passwordUrlInputModel'
+
+    # Output
+    auth.passwordUrlOutputModel:
+      $ref: './components/schemas/auth/passwordUrlOutputModel.yaml#/passwordUrlOutputModel'
+
+    # クライアントID発行関連のSchemas -----------------------------------
+    # Input
+    registration.clientRegistrationModel:
+      $ref: './components/schemas/clients/clientRegistrationInputModel.yaml#/clientRegistrationInputModel'
+    registration.authRegistrationModel:
+      $ref: './components/schemas/clients/authRegistrationInputModel.yaml#/authRegistrationInputModel'
+    registration.clientUpdateModel:
+      $ref: './components/schemas/clients/clientUpdateInputModel.yaml#/clientUpdateInputModel'
+    registration.authUpdateModel:
+      $ref: './components/schemas/clients/authUpdateInputModel.yaml#/authUpdateInputModel'
+
+    # Output
+    registration.clientRegistrationOutputModel:
+      $ref: './components/schemas/clients/registrationOutputModel.yaml#/clientOutputModel'
+    registration.authRegistrationOutputModel:
+      $ref: './components/schemas/clients/registrationOutputModel.yaml#/authOutputModel'
+    registration.secretRegistrationOutputModel:
+      $ref: './components/schemas/clients/registrationOutputModel.yaml#/secretOutputModel'
+    registration.clientUpdateOutputModel:
+      $ref: './components/schemas/clients/UpdateOutputModel.yaml#/clientOutputModel'
+    registration.authUpdateOutputModel:
+      $ref: './components/schemas/clients/UpdateOutputModel.yaml#/authOutputModel'
+
+    # ユーザ管理のSchemas -----------------------------------
+    # Input
+    user.userInputModel:
+      $ref: './components/schemas/user/userInputModel.yaml#/userInputModel'
+
+    # Output
+    user.userPasswordOutputModel:
+      $ref: './components/schemas/user/userOutputModel.yaml#/userPasswordOutputModel'
+
+    # 事業者情報管理のSchemas -----------------------------------
+    # Input
+    operator.operatorInputModel:
+      $ref: './components/schemas/operator/operatorInputModel.yaml#/operatorInputModel'
+    operator.operatorPutInputModel:
+      $ref: './components/schemas/operator/operatorPutInputModel.yaml#/operatorPutInputModel'
+    operator.operatorPutStatusInputModel:
+      $ref: './components/schemas/operator/operatorPutStatusInputModel.yaml#/operatorPutStatusInputModel'
+    operator.operatorListInputModel:
+      $ref: './components/schemas/operator/operatorListInputModel.yaml#/operatorListInputModel'
+
+    # Output
+    operator.operatorGetOutputModel:
+      $ref: './components/schemas/operator/operatorOutputModel.yaml#/operatorGetOutputModel'
+    operator.operatorListOutputModel:
+      $ref: './components/schemas/operator/operatorOutputModel.yaml#/operatorListOutputModel'
+    operator.operatorPasswordOutputModel:
+      $ref: './components/schemas/operator/operatorOutputModel.yaml#/operatorPasswordOutputModel'
+
+    # Properties
+    operator.operatorProperties:
+      $ref: './components/schemas/operator/operatorOutputModel.yaml#/operatorProperties'
+
+    # 属性（事業所）情報管理のSchemas -----------------------------------
+    # Input
+    plant.plantInputModel:
+      $ref: './components/schemas/plant/plantInputModel.yaml#/plantInputModel'
+    plant.plantPutInputModel:
+      $ref: './components/schemas/plant/plantPutInputModel.yaml#/plantPutInputModel'
+    plant.plantPutStatusInputModel:
+      $ref: './components/schemas/plant/plantPutStatusInputModel.yaml#/plantPutStatusInputModel'
+    plant.plantListInputModel:
+      $ref: './components/schemas/plant/plantListInputModel.yaml#/plantListInputModel'
+
+    # Output
+    plant.plantOutputModel:
+      $ref: './components/schemas/plant/plantOutputModel.yaml#/plantOutputModel'
+    plant.plantListOutputModel:
+      $ref: './components/schemas/plant/plantOutputModel.yaml#/plantListOutputModel'
+
+    # Properties
+    operator.plantProperties:
+      $ref: './components/schemas/plant/plantOutputModel.yaml#/plantProperties'
+
+    # 共通のSchemas -----------------------------------
+    httpResponses:
+      $ref: './components/schemas/common/httpResponses.yaml#/httpResponses'
+    httpError:
+      $ref: './components/schemas/common/httpError.yaml#/HTTPError'
+
+  # セキュリティスキーム -----------------------------------
+  securitySchemes:
+    API-Key:
+      type: apiKey
+      name: API-Key
+      in: header
+      description: システムに払い出されているAPIKey
+
+    Authorization:
+      type: http
+      scheme: bearer
+      description: ユーザ当人認証APIまたはクライアントシステム認証APIで発行したアクセストークン

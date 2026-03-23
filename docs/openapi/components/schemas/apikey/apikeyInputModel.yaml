@@ -1,0 +1,17 @@
+# API-key検証レスポンスモデル
+# ------------------------------------------
+apikeyVerifyInputModel:
+  type: object
+  required:
+    - verify_apikey
+  description: |-
+    APIKey検証情報
+  properties:
+    verify_apikey:
+      type: string
+      minLength: 1
+      maxLength: 256
+      example: Sample-API-Key
+      description: |-
+        検証用APIKey
+        - 有効性を検証したいAPIKeyを指定してください。

@@ -1,0 +1,46 @@
+tokenClientInputModel:
+  type: object
+  description: |
+    クライアントシステム認証API
+    の Request Body
+  title: tokenClientInputModel
+  required:
+  - client_id
+  - client_secret
+
+  properties:
+    client_id:
+      type: string
+      pattern: '^[A-Za-z0-9_-]+$'
+      minLength: 1
+      maxLength: 239
+      description: |
+        クライアントID
+        - 認証認可を行うIDPのクライアントIDを指定します。
+        - IDPに登録されているクライアントアプリケーションを識別するための一意の文字列です。
+      example: "abc123xyz"
+
+    client_secret:
+      type: string
+      minLength: 1
+      maxLength: 255
+      description: |
+        クライアントシークレット
+        - クライアントIDに対応するクライアントシークレットを指定します。
+        - クライアントIDをIDPに登録した際に発行される秘密鍵です。
+      example: "abc123xyz"
+
+#レビュー指摘：https://nttdseh.app.box.com/integrations/officeonline/openOfficeOnline?fileId=1935426020554&sharedAccessCode=
+#現時点で利用想定がないため、コメントアウト
+    # scope:
+    #   type: string
+    #   minLength: 0
+    #   maxLength: 255
+    #   default: ""
+    #   description: |
+    #     クライアントスコープ
+    #     - 認可リクエストで許可するスコープを指定します。
+    #     - スコープを複数指定する場合は "+" で区切って指定します。
+    #     - スコープ "openid" は暗黙的に付与するため、明示的に指定する必要はありません。
+    #     - スコープを指定しない場合は、IDPのデフォルトスコープ "openid" のみ適用されます。
+    #   example: "profile+scope1+scope2"

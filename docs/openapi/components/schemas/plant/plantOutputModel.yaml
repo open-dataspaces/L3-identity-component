@@ -1,0 +1,188 @@
+# 属性（事業所）情報モデル
+# ------------------------------------------
+plantOutputModel:
+  type: object
+  required:
+    - data
+  description: |-
+    属性（事業所）情報
+    - 事業所識別子と一致する属性（事業所）情報を返却します。
+  properties:
+    data:
+        type: object
+        description: |-
+         属性（事業所）情報
+         - 事業所識別子と一致する属性（事業所）情報。
+        oneOf:
+        - $ref: "#/plantProperties"
+        - title: emptyPlantProperties
+          type: object
+          description: |-
+            属性（事業所）情報が存在しない場合の空オブジェクト
+          properties: {}
+
+# 属性（事業所）情報取得モデル
+# ------------------------------------------
+plantGetOutputModel:
+  type: object
+  required:
+    - data
+  description: |-
+    属性（事業所）情報
+    - パスパラメータで指定された事業所識別子と一致する事業所情報を返却します。
+    - 指定された事業所識別子と一致する属性（事業所）情報が存在しない場合、空のオブジェクトを返却します。
+  properties:
+    data:
+      oneOf:
+        - $ref: "#/plantProperties"
+        - title: emptyPlantProperties
+          type: object
+          description: |-
+            属性（事業所）情報が存在しない場合の空オブジェクト
+          properties: {}
+
+# 属性（事業所）情報リストモデル
+# ------------------------------------------
+plantListOutputModel:
+  type: object
+  required:
+    - data
+  description: |-
+    属性（事業所）情報一覧
+    - 検索条件に一致する属性（事業所）情報のリストを返却します。
+    - 検索条件に一致する属性（事業所）情報がデータベース内に存在しない場合、空配列を返却します
+  properties:
+    data:
+      type: array
+      items:
+        $ref: "#/plantProperties"
+
+# 属性（事業所）情報プロパティ
+# ------------------------------------------
+plantProperties:
+  type: object
+  required:
+    - operator_id
+    - plant_id
+    - open_plant_id
+    - plant_name
+    - plant_address
+    - effective_start_date
+    - effective_end_date
+    - deleted_flag
+    - created_at
+    - updated_at
+  description: |-
+    属性（事業所）情報
+    - 事業所識別子と一致する属性（事業所）情報。
+  properties:
+    # IDPアカウント関連 -----------------------------
+    operator_id:
+      type: string
+      format: uuid
+      minLength: 36
+      maxLength: 36
+      description: |-
+        事業者識別子（内部）
+        - 事業者を一意に識別するための識別子です。
+      example: "d9a38406-cae2-4679-b052-15a75f5531e6"
+
+    # 事業所情報関連 -----------------------------
+    plant_id:
+      type: string
+      format: uuid
+      minLength: 36
+      maxLength: 36
+      description: |-
+        事業所識別子（内部）
+        - 事業所を一意に識別する識別子です。
+      example: "d9a38406-cae2-4679-b052-15a75f5531e6"
+
+    open_plant_id:
+      type: string
+      minLength: 6
+      maxLength: 26
+      pattern: '[0-9]{6}$'
+      description: |-
+        事業所識別子（ローカル）
+      example: "9876543210987123456"
+
+    global_plant_id:
+      type: string
+      minLength: 0
+      maxLength: 256
+      nullable: true
+      description: |-
+        事業所識別子（グローバル）
+      example: "sampleId1"
+
+    plant_name:
+      type: string
+      minLength: 1
+      maxLength: 256
+      description: |-
+        事業所名
+        - 文字コード：UTF-8
+        - 半角、全角文字どちらも許容します。
+      example: "テスト株式会社"
+
+    plant_address:
+      type: string
+      minLength: 1
+      maxLength: 256
+      example: "試験県テスト市examビル1F"
+      description: |-
+        事業所在地
+        - 文字コード：UTF-8
+        - 半角、全角文字どちらも許容します。
+
+    # 有効日制御関連 -----------------------------
+    effective_start_date:
+      type: string
+      format: date
+      description: |-
+        属性（事業所）情報の有効開始日
+        - 登録された属性（事業所）情報の有効開始日です。
+        - 登録時に未設定だった場合は登録日付が設定されます。
+        - YYYY-MM-DD形式
+      example: "2025-01-01"
+
+    effective_end_date:
+      type: string
+      format: date
+      default: "9999-12-31"
+      description: |-
+        属性（事業所）情報の有効終了日
+        - 登録された属性（事業所）情報の有効終了日です。
+        - 登録時に未設定だった場合はシステム最大日付が設定されます。
+        - YYYY-MM-DD形式
+      example: "2030-12-31"
+
+    deleted_flag:
+      type: boolean
+      default: false
+      description: |-
+        無効化フラグ
+        - true:属性（事業所）を無効化します
+        - false:属性（事業所）を有効化します
+        - 再度有効化を行う場合は、本フラグを false に指定して実行してください
+        - 無効化を行っても、属性（事業所）情報はデータベース内で保持されます
+      example: false
+
+    created_at:
+      type: string
+      format: date-time
+      description: |-
+        登録日時
+        - データの登録日時
+        - YYYY-MM-DDTHH:mm:ss.sssZ形式
+      example: "2030-12-31T23:59:59.999Z"
+
+    updated_at:
+      type: string
+      format: date-time
+      description: |-
+        更新日時
+        - データの更新日時
+        - YYYY-MM-DDTHH:mm:ss.sssZ形式
+      example: "2030-12-31T23:59:59.999Z"

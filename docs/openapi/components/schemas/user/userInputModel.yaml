@@ -1,0 +1,36 @@
+userInputModel:
+  type: object
+  required:
+    - login_user_id
+  description: |-
+    個人ユーザ登録API
+    の Request Body
+  properties:
+    # IDPアカウント関連 -----------------------------
+    login_user_id:
+      $ref: "./userOutputModel.yaml#/userAccountProperties/properties/login_user_id"
+
+    # パスワード制御関連 -----------------------------
+    create_password_flag:
+      type: boolean
+      default: true
+      description: |-
+        初期パスワード登録フラグ
+        - true:初期パスワードを登録します
+        - false:初期パスワードを登録しません
+        - 初期パスワードはランダムな文字列が生成されます。
+        - 初期パスワードはレスポンスボディに含まれます。
+        - 初期パスワードを登録しない場合"パスワード変更API"または"パスワード変更画面URL取得API"でパスワードを変更するまで、アクセストークンを取得できません。
+      example: true
+
+    password_temporary_flag:
+      type: boolean
+      default: false
+      description: |-
+        一時パスワードフラグ
+        - true:初期パスワードを一時パスワードとして登録します
+        - false:初期パスワードを一時パスワードとして登録しません
+        - 初期パスワードフラグが "true" の場合に有効です。初期パスワードフラグが "false" の場合、この項目は無視されます。
+        - 一時パスワードは"パスワード変更API"または"パスワード変更画面URL取得API"でパスワードを変更するまで、アクセストークンを取得できません。
+      example: false
+

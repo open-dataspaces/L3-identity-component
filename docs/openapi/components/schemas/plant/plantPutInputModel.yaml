@@ -1,0 +1,34 @@
+plantPutInputModel:
+  type: object
+  required:
+    - updated_at
+  description: |-
+    属性（事業所）情報更新API
+    の Request Body
+  properties:
+    # 排他制御用 更新日時
+    updated_at:
+      type: string
+      format: date-time
+      minLength: 24
+      maxLength: 24
+      description: |-
+        更新日時
+        - データが他APIで更新されていないことを検査するために使用します。
+        - YYYY-MM-DDTHH:mm:ss.sssZ形式。
+        - 属性（事業所）情報取得APIにて最新の更新日時を取得し、設定してください。
+        - 指定した更新日時とデータベース内の更新日時が不一致の場合、更新処理を拒否します。
+      example: "2030-12-31T23:59:59.999Z"
+
+    # 事業所情報関連 -----------------------------
+    plant_name:
+      $ref: "./plantOutputModel.yaml#/plantProperties/properties/plant_name"
+
+    plant_address:
+      $ref: "./plantOutputModel.yaml#/plantProperties/properties/plant_address"
+
+    open_plant_id:
+      $ref: "./plantOutputModel.yaml#/plantProperties/properties/open_plant_id"
+    
+    global_plant_id:
+      $ref: "./plantOutputModel.yaml#/plantProperties/properties/global_plant_id"

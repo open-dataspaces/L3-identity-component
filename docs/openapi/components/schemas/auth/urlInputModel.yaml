@@ -1,0 +1,78 @@
+urlInputModel:
+  type: object
+  description: |-
+    ユーザ当人認証(認可コードフロー)_ログインURL取得API
+    の Request Body
+  title: urlInputModel
+  required:
+  - client_id
+  - redirect_uri
+  - code_challenge
+  properties:
+    client_id:
+      type: string
+      pattern: '^[A-Za-z0-9_-]+$'
+      minLength: 1
+      maxLength: 239
+      description: |
+        クライアントID
+        - 認証認可を行うIDPのクライアントIDを指定します。
+        - IDPに登録されているクライアントアプリケーションを識別するための一意の文字列です。
+      example: "abc123xyz"
+
+    redirect_uri:
+      type: string
+      pattern: '^[^*%{}\\\s\p{Zs}\p{Cc}]+$'
+      minLength: 1
+      maxLength: 255
+      description: |
+        リダイレクトURI
+        - IDPでの認証後に遷移するアプリケーションのURIを指定します。事前に登録したURIのみ遷移が可能です。
+      example: "https://example.com/home"
+
+    code_challenge:
+      type: string
+      description: |
+        PKCE用コードチャレンジ  
+        - 認可リクエストで使用するPKCE用のチャレンジ文字列を指定します。  
+          チャレンジ方式はS256で、以下手順でコードを生成します。
+        1. code_verifier を生成（ランダムな文字列）
+          - 長さ：43〜128文字（RFC 7636で定義）
+          - 文字種：英数字（A-Z, a-z, 0-9）と -, ., _, ~ のみ（URLセーフな文字）
+        2. code_verifier を SHA256 でハッシュ
+        3. ハッシュ値を Base64URL エンコード
+        - code_verifierはトークン取得APIのリクエスト時にも必要になる値です。
+      example: "IevIR0cQsAuNuPha71dAbjkT-sipaqXEquPhtCqKL80"
+
+#レビュー指摘：https://nttdseh.app.box.com/integrations/officeonline/openOfficeOnline?fileId=1935426020554&sharedAccessCode=
+#現時点で利用想定がないため、コメントアウト
+    # scope:
+    #   type: string
+    #   minLength: 0
+    #   maxLength: 255
+    #   default: ""
+    #   description: |
+    #     クライアントスコープ
+    #     - 認可リクエストで許可するスコープを指定します。
+    #     - スコープを複数指定する場合は "+" で区切って指定します。
+    #     - スコープ "openid" は暗黙的に付与するため、明示的に指定する必要はありません。
+    #     - スコープを指定しない場合は、IDPのデフォルトスコープ "openid" のみ適用されます。
+    #   example: "profile+scope1+scope2"
+
+#レビュー指摘：https://nttdseh.app.box.com/integrations/officeonline/openOfficeOnline?fileId=1935426020554&sharedAccessCode=
+#現時点で利用想定がないため、コメントアウト
+#     prompt:
+#       type: string
+#       minLength: 0
+#       maxLength: 255
+#       default: ""
+#       description: |
+#         認証プロンプト
+#         - 認証時に表示するプロンプトの種類を指定します。
+#         - プロンプトを複数指定する場合は "+" で区切って指定します。
+#           - login : 強制的に再ログインを要求する。すでにログイン済みでも再度ログイン画面を表示。
+#           - consent : ユーザーに同意画面を表示する。すでに同意済みでも再度表示。
+#           - none : 認証を行わず、ログイン済みのユーザー情報を返す。ログインしていない場合はエラー。
+# #        複数アカウントは想定外？
+# #        select_account : ユーザーにアカウント選択画面を表示する（複数アカウントを持つ場合など）。
+#       example: "login+consent"

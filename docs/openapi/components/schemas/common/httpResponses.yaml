@@ -1,0 +1,27 @@
+# API設計開発ガイドラインに準拠したレスポンスボディ（正常系）
+# API設計開発ガイドライン 8.3 レスポンスボディ
+httpResponses:
+  type: object
+  description: HTTPレスポンスオブジェクト
+  required:
+    - type
+    - title
+    - status
+    - detail
+  properties:
+    type:
+      type: string
+      description: 実行結果の種類を識別するURI
+      example: "https://api.example.com/success"
+    title:
+      type: string
+      description: 実行結果メッセージ
+      example: "Request processed successfully"
+    status:
+      type: string
+      description: HTTPステータスコード
+      example: 200
+    detail:
+      type: string
+      description: 基盤運営事業者向け調査情報
+      example: "time_stamp:2024-10-02T02:26:57.512Z, method:POST"

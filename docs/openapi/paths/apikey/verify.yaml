@@ -1,0 +1,50 @@
+post:
+  tags:
+  - auth/apikey
+  summary: APIKey検証API
+  description: |-
+    リクエストボディに含めたAPIKeyの有効性を検証するAPIです。
+    - Available authorizationsに含めているAPI-Keyは別途必要になります。
+
+  parameters:
+
+    # Header Parameter
+    - $ref: '../../components/headers/request.yaml#/requestHeaders/Content-Type'
+    - $ref: '../../components/headers/request.yaml#/requestHeaders/User-Agent'
+    - $ref: '../../components/headers/request.yaml#/requestHeaders/Accept-Language'
+    - $ref: '../../components/headers/request.yaml#/requestHeaders/X-TrackingID'
+  
+  security:
+  - API-Key: []
+  x-codegen-request-body-name: RequestBody
+
+  requestBody:
+    description: リクエスト情報
+    content:
+      application/json:
+        schema:
+          $ref: '../../components/schemas/apikey/apikeyInputModel.yaml#/apikeyVerifyInputModel'
+
+  responses:
+    '200':
+      description: |-
+        APIKeyの検証に成功しました。  
+        検証結果を返却します。
+      headers:
+        $ref: '../../components/headers/responses.yaml#/responseHeaders'
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '../../components/schemas/common/httpResponses.yaml#/httpResponses'
+              - $ref: '../../components/schemas/apikey/apikeyOutputModel.yaml#/apikeyVerifyOutputModel'
+    "400":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/400'
+    "403":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/403'
+    "404":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/404'
+    "500":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/500'
+    "503":
+      $ref: '../../components/schemas/common/httpError.yaml#/responses/503'
