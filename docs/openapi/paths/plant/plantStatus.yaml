@@ -50,7 +50,22 @@ put:
         属性（事業所）情報のステータス更新に成功しました。  
         更新された属性（事業所）情報を返却します。
       headers:
-        $ref: '../../components/headers/responses.yaml#/responseHeaders'
+        Content-Security-Policy:
+          $ref: "../../components/headers/responses.yaml#/responseHeaders/Content-Security-Policy"
+        X-Content-Type-Options:
+          $ref: "../../components/headers/responses.yaml#/responseHeaders/X-Content-Type-Options"
+        Strict-Transport-Security:
+          $ref: "../../components/headers/responses.yaml#/responseHeaders/Strict-Transport-Security"
+        X-TrackingID:
+          $ref: "../../components/headers/request.yaml#/requestHeaders/X-TrackingID"
+        Access-Control-Allow-Origin:
+          $ref: "../../components/headers/responses.yaml#/responseHeaders/Access-Control-Allow-Origin"
+        Access-Control-Allow-Methods:
+          $ref: "../../components/headers/responses.yaml#/responseHeaders/Access-Control-Allow-Methods"
+        Access-Control-Allow-Headers:
+          $ref: "../../components/headers/responses.yaml#/responseHeaders/Access-Control-Allow-Headers"
+        Access-Control-Allow-Credentials:
+          $ref: "../../components/headers/responses.yaml#/responseHeaders/Access-Control-Allow-Credentials"
       content:
         application/json:
           schema:
@@ -73,6 +88,3 @@ put:
       $ref: '../../components/schemas/common/httpError.yaml#/responses/500'
     "503":
       $ref: '../../components/schemas/common/httpError.yaml#/responses/503'
-
-
-

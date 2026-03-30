@@ -48,6 +48,12 @@ jobs:
     steps:
       # Checkout the repository
       - uses: actions/checkout@v5
+
+      # Validate OAS documents
+      - uses: docker://openapitools/openapi-generator-cli
+        with:
+          args: validate -i ./docs/openapi/openapi.yaml
+
       # Set up JDK 21
       - uses: actions/setup-java@v5
         with:

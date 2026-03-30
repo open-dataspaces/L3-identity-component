@@ -66,4 +66,3 @@ authRegistrationInputModel:
       example:
         - "http://example.com/redirect1"
         - "http://example.com/redirect2"
-

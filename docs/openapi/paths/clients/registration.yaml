@@ -38,11 +38,6 @@ post:
           oneOf:
             - $ref: "../../components/schemas/clients/clientRegistrationInputModel.yaml#/clientRegistrationInputModel"
             - $ref: "../../components/schemas/clients/authRegistrationInputModel.yaml#/authRegistrationInputModel"
-          discriminator:
-            propertyName: flow_type
-            mapping:
-              client_credentials: "../../components/schemas/clients/clientRegistrationInputModel.yaml#/clientRegistrationInputModel"
-              authorization_code: "../../components/schemas/clients/authRegistrationInputModel.yaml#/authRegistrationInputModel"
 
   responses:
     "201":
@@ -50,7 +45,22 @@ post:
         クライアントIDの登録に成功しました。  
         クライアント情報を返却します。
       headers:
-        $ref: '../../components/headers/responses.yaml#/responseHeaders'
+        Content-Security-Policy:
+          $ref: "../../components/headers/responses.yaml#/responseHeaders/Content-Security-Policy"
+        X-Content-Type-Options:
+          $ref: "../../components/headers/responses.yaml#/responseHeaders/X-Content-Type-Options"
+        Strict-Transport-Security:
+          $ref: "../../components/headers/responses.yaml#/responseHeaders/Strict-Transport-Security"
+        X-TrackingID:
+          $ref: "../../components/headers/request.yaml#/requestHeaders/X-TrackingID"
+        Access-Control-Allow-Origin:
+          $ref: "../../components/headers/responses.yaml#/responseHeaders/Access-Control-Allow-Origin"
+        Access-Control-Allow-Methods:
+          $ref: "../../components/headers/responses.yaml#/responseHeaders/Access-Control-Allow-Methods"
+        Access-Control-Allow-Headers:
+          $ref: "../../components/headers/responses.yaml#/responseHeaders/Access-Control-Allow-Headers"
+        Access-Control-Allow-Credentials:
+          $ref: "../../components/headers/responses.yaml#/responseHeaders/Access-Control-Allow-Credentials"
       content:
         application/json:
           schema:

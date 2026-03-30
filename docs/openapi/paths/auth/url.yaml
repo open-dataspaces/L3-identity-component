@@ -30,7 +30,22 @@ post:
         ログインURL取得に成功しました。  
         認可フローのログインURL（エンドポイント）を返却します。
       headers:
-        $ref: '../../components/headers/responses.yaml#/responseHeaders'
+        Content-Security-Policy:
+          $ref: "../../components/headers/responses.yaml#/responseHeaders/Content-Security-Policy"
+        X-Content-Type-Options:
+          $ref: "../../components/headers/responses.yaml#/responseHeaders/X-Content-Type-Options"
+        Strict-Transport-Security:
+          $ref: "../../components/headers/responses.yaml#/responseHeaders/Strict-Transport-Security"
+        X-TrackingID:
+          $ref: "../../components/headers/request.yaml#/requestHeaders/X-TrackingID"
+        Access-Control-Allow-Origin:
+          $ref: "../../components/headers/responses.yaml#/responseHeaders/Access-Control-Allow-Origin"
+        Access-Control-Allow-Methods:
+          $ref: "../../components/headers/responses.yaml#/responseHeaders/Access-Control-Allow-Methods"
+        Access-Control-Allow-Headers:
+          $ref: "../../components/headers/responses.yaml#/responseHeaders/Access-Control-Allow-Headers"
+        Access-Control-Allow-Credentials:
+          $ref: "../../components/headers/responses.yaml#/responseHeaders/Access-Control-Allow-Credentials"
       content:
         application/json:
           schema:
@@ -51,54 +66,3 @@ post:
       $ref: '../../components/schemas/common/httpError.yaml#/responses/500'
     "503":
       $ref: '../../components/schemas/common/httpError.yaml#/responses/503'
-
-    # "401":
-    #   description: |-
-    #     認証に失敗しました。  
-    #     有効な認証情報を提供してください。
-    #   headers:
-    #     $ref: '../../components/headers/responsesError.yaml#/responseHeaders'
-    #   content:
-    #     application/json:
-    #       schema:
-    #         $ref: '../../components/schemas/common/httpError.yaml#/HTTPError'
-    # "403":
-    #   description: |-
-    #     アクセスが拒否されました。  
-    #     この操作を実行する権限がありません。
-    #   headers:
-    #     $ref: '../../components/headers/responsesError.yaml#/responseHeaders'
-    #   content:
-    #     application/json:
-    #       schema:
-    #         $ref: '../../components/schemas/common/httpError.yaml#/HTTPError'
-    # "404":
-    #   description: |-
-    #     リクエストされたリソースが見つかりません。  
-    #     指定された事業者情報が存在しない可能性があります。
-    #   headers:
-    #     $ref: '../../components/headers/responsesError.yaml#/responseHeaders'
-    #   content:
-    #     application/json:
-    #       schema:
-    #         $ref: '../../components/schemas/common/httpError.yaml#/HTTPError'
-    # "500":
-    #   description: |-
-    #     サーバー内部でエラーが発生しました。  
-    #     後ほど再試行してください。
-    #   headers:
-    #     $ref: '../../components/headers/responsesError.yaml#/responseHeaders'
-    #   content:
-    #     application/json:
-    #       schema:
-    #         $ref: '../../components/schemas/common/httpError.yaml#/HTTPError'
-    # "503":
-    #   description: |-
-    #     サービスが一時的に利用できません。  
-    #     後ほど再試行してください。
-    #   headers:
-    #     $ref: '../../components/headers/responsesError.yaml#/responseHeaders'
-    #   content:
-    #     application/json:
-    #       schema:
-    #         $ref: '../../components/schemas/common/httpError.yaml#/HTTPError'
