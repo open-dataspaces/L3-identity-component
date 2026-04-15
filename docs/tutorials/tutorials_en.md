@@ -25,7 +25,7 @@ This section provides an example of a reference implementation and operational v
       - [2-1-7. Issuing a Client ID for the Authorization Code Flow](#2-1-7-issuing-a-client-id-for-the-authorization-code-flow)
       - [2-1-8. Retrieving the Authorization Code Flow Client Secret](#2-1-8-retrieving-the-authorization-code-flow-client-secret)
     - [2-2. Operator Authentication (Client System Authentication)](#2-2-operator-authentication-client-system-authentication)
-      - [Obtaining an Access Token (Operator Client ID Authentication)](#obtaining-an-access-token-operator-client-id-authentication)
+      - [2-2-1. Obtaining an Access Token (Operator Client ID Authentication)](#2-2-1-obtaining-an-access-token-operator-client-id-authentication)
       - [2-2-2. Token Introspection](#2-2-2-token-introspection)
     - [2-3. End-User Authentication (Authorization Code Flow)](#2-3-end-user-authentication-authorization-code-flow)
       - [2-3-1. Retrieving the Login URL](#2-3-1-retrieving-the-login-url)
@@ -464,7 +464,7 @@ AUTH_CODE_CLIENT_SECRET=e1iLf7YY6VGWwDFJ8Gnmf4yR7y4TLQ5D
 
 ### 2-2. Operator Authentication (Client System Authentication)
 
-#### Obtaining an Access Token (Operator Client ID Authentication)
+#### 2-2-1. Obtaining an Access Token (Operator Client ID Authentication)
 
 Execute the following```curl```command to obtain client ID credentials for operator authentication.
 
