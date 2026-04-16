@@ -27,7 +27,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>user_authentication</name>
-    <description>Open Dataspaces project for Spring Boot</description>
+    <description>Open Data Spaces project for Spring Boot</description>
     <url/>
 
     <licenses>

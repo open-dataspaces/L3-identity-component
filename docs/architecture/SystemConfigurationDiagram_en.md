@@ -34,5 +34,5 @@ flowchart LR
 |Name                                        |Description|
 |:-------------------------------------------|:----|
 |UC|Use Case (Business Operator or Individual)|
-|ODS|Abbreviation for OPEN-DATASPACES|
+|ODS|Abbreviation for Open Data Spaces|
 |L3|Identity layer defined in ODS that resolves authentication and authorization issues|
