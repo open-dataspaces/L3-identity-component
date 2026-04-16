@@ -3,8 +3,7 @@ This repository publishes a reference implementation example of the **Identity C
 For details on ODS-RAM, please refer to [here](https://open-dataspaces.gitbook.io/ods-docs).
 
 ## Basic Concepts
-"ODS" is a technical concept for open and neutral data spaces, aiming to promote cross-enterprise, cross-industry, and cross-border collaboration and utilization of enterprise data.
-ODS publishes "ODS-RAM", an architecture model that focuses on the service lifecycle to rapidly advance the social implementation of data spaces by industry. Within ODS-RAM, the "Identity Layer" is defined as the layer that addresses authentication and authorization challenges. The Identity Component is a core component that plays a central role in the Identity Layer.
+Open Data Spaces (ODS) is an open and scalable foundation for distributed data, built on organizational and national diversity by design.
 
 ## Functional Overview / List of Functions
 For details on functionality, please refer to the [Open Data Spaces Protocol (ODP)](https://open-dataspaces.gitbook.io/ods-docs), which summarizes the L3 protocol specifications, and the [API specification](./docs/openapi).
