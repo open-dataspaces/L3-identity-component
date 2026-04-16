@@ -1,5 +1,5 @@
 ## Overview and Purpose
-This repository publishes a reference implementation example of the **Identity Component**, which plays a core role in the Identity Layer (L3), among the reference implementations of the technical reference document for Open Dataspaces (ODS), the "ODS Reference Architecture Model (ODS-RAM)".
+This repository publishes a reference implementation example of the **Identity Component**, which plays a core role in the Identity Layer (L3), among the reference implementations of the technical reference document for Open Data Spaces (ODS), the "ODS Reference Architecture Model (ODS-RAM)".
 For details on ODS-RAM, please refer to [here](https://open-dataspaces.gitbook.io/ods-docs).
 
 ## Basic Concepts
@@ -7,7 +7,7 @@ For details on ODS-RAM, please refer to [here](https://open-dataspaces.gitbook.i
 ODS publishes "ODS-RAM", an architecture model that focuses on the service lifecycle to rapidly advance the social implementation of data spaces by industry. Within ODS-RAM, the "Identity Layer" is defined as the layer that addresses authentication and authorization challenges. The Identity Component is a core component that plays a central role in the Identity Layer.
 
 ## Functional Overview / List of Functions
-For details on functionality, please refer to the [Open Dataspaces Protocol (ODP)](https://open-dataspaces.gitbook.io/ods-docs), which summarizes the L3 protocol specifications, and the [API specification](./docs/openapi).
+For details on functionality, please refer to the [Open Data Spaces Protocol (ODP)](https://open-dataspaces.gitbook.io/ods-docs), which summarizes the L3 protocol specifications, and the [API specification](./docs/openapi).
 
 ## Directory Structure
 ```

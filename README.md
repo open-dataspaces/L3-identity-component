@@ -1,5 +1,5 @@
 ## 概要・目的
-本リポジトリでは、Open Dataspaces（ODS）における技術参照文書
+本リポジトリでは、Open Data Spaces（ODS）における技術参照文書
 「ODSリファレンスアーキテクチャモデル（ODS-RAM）」の参照実装のうち、アイデンティティレイヤ（L3）の中核的役割を果たすアイデンティティコンポーネントの参照実装例を公開する。
 
 ODS-RAMの詳細については[こちら](http://open-dataspaces.gitbook.io/ods-docs/jp)を参照すること
@@ -10,7 +10,7 @@ ODS-RAMの詳細については[こちら](http://open-dataspaces.gitbook.io/ods
 ODSでは産業界がデータスペースの社会実装を早急に進めるためのサービスライフサイクルに焦点をおいたアーキテクチャモデルである「ODS-RAM」を公開しており、その中で認証および認可の問題を解決するレイヤとして「アイデンティティレイヤ」が定義されている。アイデンティティコンポーネントはアイデンティティレイヤにおいて中核的役割を果たすコアコンポーネントである。
 
 ## 機能概要・機能一覧
-機能についてはL3のプロトコル仕様をまとめた[Open Dataspaces Protocol（ODP）](http://open-dataspaces.gitbook.io/ods-docs/jp)および[API仕様書](./docs/openapi)を参照すること。
+機能についてはL3のプロトコル仕様をまとめた[Open Data Spaces Protocol（ODP）](http://open-dataspaces.gitbook.io/ods-docs/jp)および[API仕様書](./docs/openapi)を参照すること。
 
 ## ディレクトリ構成
 

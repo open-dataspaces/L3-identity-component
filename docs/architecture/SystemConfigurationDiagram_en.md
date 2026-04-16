@@ -1,4 +1,4 @@
-# OPEN-DATASPACES L3 Authenticator System Configuration Diagram
+# Open Data Spaces L3 Authenticator System Configuration Diagram
 
 ## ODS Platform L3 User Authentication System Configuration Diagram
 
