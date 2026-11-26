@@ -18,7 +18,14 @@ responseHeaders:
       type: string
       example: "max-age=63072000; includeSubDomains"
   X-TrackingID:
-    $ref: "./request.yaml#/requestHeaders/X-TrackingID"
+    description: |
+      リクエストのトレーシングを行う一意なID
+      - トレーシング機能の実装はなく、受領・返却のみが行われます。
+    required: false
+    schema:
+      type: string
+      example: "correlation-id-12345"
+      default: ""
 
   # CORS関連ヘッダー
   # API設計開発ガイドライン 4.3.2 CORSレスポンス
